@@ -2,11 +2,12 @@ import { useState, useCallback } from 'react'
 import './App.css'
 
 // ── TYPES ──────────────────────────────────────────────────────
-type QuestionType = 'scale' | 'yn' | 'multi'
+type QuestionType = 'scale' | 'scale10' | 'yn' | 'multi' | 'text'
 
 interface Conditional {
   parent: string
-  value: string
+  value?: string
+  minValue?: number  // triggers if parent answer >= minValue
 }
 
 interface Question {
@@ -136,6 +137,22 @@ const QUESTIONS: Question[] = [
     low: 'Not ready at all', high: 'Starting today',
     weight: 'willing',
   },
+  {
+    id: 'q10',
+    text: 'How much does your phone use take away from your life?',
+    sub: '0 = no impact at all. 10 = it\'s costing you things that matter.',
+    type: 'scale10',
+    low: 'No impact', high: 'Significant cost',
+    weight: 'impact',
+  },
+  {
+    id: 'q10a',
+    text: 'What does it take away from?',
+    sub: 'Be as specific as you like — this helps us understand what actually matters to you.',
+    type: 'text',
+    conditional: { parent: 'q10', minValue: 5 },
+    weight: null,
+  },
 ]
 
 // ── SCORING ───────────────────────────────────────────────────
@@ -148,7 +165,8 @@ function calcScore(answers: Answers): ScoreResult {
   const willing    = Math.round(((willingAvg - 1) / 4) * 100)
   const trigBonus  = Math.min(((answers['q8'] as number[] || []).length) * 8, 30)
   const relapse    = answers['q5'] === 'yes' ? 10 : 0
-  return { immersionScore: Math.min(100, immersion + trigBonus + relapse), willingScore: willing }
+  const impactBonus = Math.min((((answers['q10'] as number) || 0) / 10) * 15, 15)
+  return { immersionScore: Math.min(100, immersion + trigBonus + relapse + impactBonus), willingScore: willing }
 }
 
 function getTier(immersionScore: number, willingScore: number): TierResult {
@@ -212,6 +230,50 @@ function ScaleInput({ qId, value, low, high, onChange }: ScaleInputProps) {
   )
 }
 
+interface Scale10InputProps {
+  qId: string
+  value: number | undefined
+  low: string
+  high: string
+  onChange: (qId: string, val: number) => void
+}
+
+function Scale10Input({ qId, value, low, high, onChange }: Scale10InputProps) {
+  return (
+    <div>
+      <div className="scale10-wrap">
+        {[0,1,2,3,4,5,6,7,8,9,10].map(v => (
+          <button
+            key={v}
+            className={`scale10-btn ${value === v ? 'selected' : ''}`}
+            onClick={() => onChange(qId, v)}
+            aria-label={`${v}`}
+          >{v}</button>
+        ))}
+      </div>
+      <div className="scale-labels"><span>{low}</span><span>{high}</span></div>
+    </div>
+  )
+}
+
+interface TextInputProps {
+  qId: string
+  value: string | undefined
+  onChange: (qId: string, val: string) => void
+}
+
+function TextInput({ qId, value, onChange }: TextInputProps) {
+  return (
+    <textarea
+      className="text-input"
+      placeholder="e.g. time with family, focus at work, sleep, hobbies I used to love..."
+      value={value || ''}
+      onChange={e => onChange(qId, e.target.value)}
+      rows={3}
+    />
+  )
+}
+
 interface YNInputProps {
   qId: string
   value: string | undefined
@@ -272,22 +334,36 @@ interface QuestionCardProps {
 
 function QuestionCard({ q, answers, onChange, visibleIndex }: QuestionCardProps) {
   const isConditional = !!q.conditional
-  const isVisible = !isConditional || answers[q.conditional.parent] === q.conditional.value
+  let isVisible = true
+  if (isConditional && q.conditional) {
+    const parentVal = answers[q.conditional.parent]
+    if (q.conditional.minValue !== undefined) {
+      isVisible = typeof parentVal === 'number' && parentVal >= q.conditional.minValue
+    } else {
+      isVisible = parentVal === q.conditional.value
+    }
+  }
   if (!isVisible) return null
 
   return (
-    <div className="q-card">
+    <div className={`q-card ${isConditional ? 'q-card-conditional' : ''}`}>
       <div className="q-num">Question {isConditional ? '↳' : visibleIndex}</div>
       <div className="q-text">{q.text}</div>
       {q.sub && <div className="q-sub">{q.sub}</div>}
       {q.type === 'scale' && (
-        <ScaleInput qId={q.id} value={answers[q.id]} low={q.low} high={q.high} onChange={onChange} />
+        <ScaleInput qId={q.id} value={answers[q.id] as number | undefined} low={q.low!} high={q.high!} onChange={onChange} />
+      )}
+      {q.type === 'scale10' && (
+        <Scale10Input qId={q.id} value={answers[q.id] as number | undefined} low={q.low!} high={q.high!} onChange={onChange} />
       )}
       {q.type === 'yn' && (
-        <YNInput qId={q.id} value={answers[q.id]} onChange={onChange} />
+        <YNInput qId={q.id} value={answers[q.id] as string | undefined} onChange={onChange} />
       )}
       {q.type === 'multi' && (
-        <MultiInput qId={q.id} options={q.options} value={answers[q.id]} onChange={onChange} />
+        <MultiInput qId={q.id} options={q.options!} value={answers[q.id] as number[] || []} onChange={onChange} />
+      )}
+      {q.type === 'text' && (
+        <TextInput qId={q.id} value={answers[q.id] as string | undefined} onChange={onChange} />
       )}
     </div>
   )
@@ -429,24 +505,33 @@ function SurveyForm({ onComplete }: SurveyFormProps) {
   const handleChange = useCallback((qId: string, val: number | string | number[]) => {
     setAnswers(prev => {
       const next = { ...prev, [qId]: val }
-      // clear conditional child if parent changes away
-      if (qId === 'q5' && val !== 'yes') { delete next['q5a'] }
+      // clear conditional children when parent changes
+      if (qId === 'q5' && val !== 'yes') delete next['q5a']
+      if (qId === 'q10' && typeof val === 'number' && val < 5) delete next['q10a']
       return next
     })
   }, [])
 
-  const visibleQs = QUESTIONS.filter(q => {
+  const isQuestionVisible = (q: Question): boolean => {
     if (!q.conditional) return true
-    return answers[q.conditional.parent] === q.conditional.value
-  })
+    const parentVal = answers[q.conditional.parent]
+    if (q.conditional.minValue !== undefined) {
+      return typeof parentVal === 'number' && parentVal >= q.conditional.minValue
+    }
+    return parentVal === q.conditional.value
+  }
+
+  const visibleQs = QUESTIONS.filter(isQuestionVisible)
 
   const allAnswered = visibleQs.every(q => {
-    if (q.type === 'multi') return answers[q.id] && answers[q.id].length > 0
+    if (q.type === 'text') return true  // text follow-up is optional
+    if (q.type === 'multi') return Array.isArray(answers[q.id]) && (answers[q.id] as number[]).length > 0
     return answers[q.id] !== undefined
   })
 
   const answered = visibleQs.filter(q => {
-    if (q.type === 'multi') return answers[q.id] && answers[q.id].length > 0
+    if (q.type === 'text') return true
+    if (q.type === 'multi') return Array.isArray(answers[q.id]) && (answers[q.id] as number[]).length > 0
     return answers[q.id] !== undefined
   }).length
 

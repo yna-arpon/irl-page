@@ -1,7 +1,7 @@
-/* ── FONTS ── */
+/* â”€â”€ FONTS â”€â”€ */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
 
-/* ── RESET & TOKENS ── */
+/* â”€â”€ RESET & TOKENS â”€â”€ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -29,7 +29,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ── NAV ── */
+/* â”€â”€ NAV â”€â”€ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
@@ -52,7 +52,7 @@ nav {
 }
 .nav-cta:hover { background: var(--navy2); }
 
-/* ── HERO ── */
+/* â”€â”€ HERO â”€â”€ */
 .hero {
   min-height: 100vh; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
@@ -114,7 +114,7 @@ nav {
   50%      { transform: translateX(-50%) translateY(8px); }
 }
 
-/* ── SECTION LABEL ── */
+/* â”€â”€ SECTION LABEL â”€â”€ */
 .section-label {
   font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
   color: var(--muted); margin-bottom: 48px;
@@ -124,7 +124,7 @@ nav {
   content: ''; flex: 1; height: 1px; background: var(--powder2);
 }
 
-/* ── PROBLEM ── */
+/* â”€â”€ PROBLEM â”€â”€ */
 .problem { background: var(--navy); padding: 80px 48px; text-align: center; }
 .problem-inner { max-width: 780px; margin: 0 auto; }
 .problem-title {
@@ -135,7 +135,7 @@ nav {
 .problem-body { font-size: 16px; color: var(--powder); line-height: 1.8; max-width: 580px; margin: 0 auto; }
 .problem-body strong { color: var(--white); font-weight: 500; }
 
-/* ── HOW IT WORKS ── */
+/* â”€â”€ HOW IT WORKS â”€â”€ */
 .how { padding: 100px 48px; max-width: 960px; margin: 0 auto; }
 .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 16px; }
 .how-step {
@@ -152,7 +152,7 @@ nav {
 }
 .how-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
-/* ── SURVEY SECTION ── */
+/* â”€â”€ SURVEY SECTION â”€â”€ */
 .survey-section {
   background: var(--cream2); padding: 100px 24px;
   border-top: 1px solid rgba(27,78,107,0.08);
@@ -238,7 +238,7 @@ nav {
 .submit-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .submit-hint { font-size: 12px; color: var(--muted); margin-top: 12px; }
 
-/* ── RESULTS ── */
+/* â”€â”€ RESULTS â”€â”€ */
 .result-screen { animation: fadeUp 0.5s ease both; }
 .result-header { text-align: center; padding: 48px 0 32px; }
 .result-emoji { font-size: 52px; display: block; margin-bottom: 20px; }
@@ -337,7 +337,7 @@ nav {
 }
 .retry-btn:hover { color: var(--navy); border-color: var(--navy); }
 
-/* ── TESTIMONIALS ── */
+/* â”€â”€ TESTIMONIALS â”€â”€ */
 .testimonials { padding: 100px 48px; max-width: 960px; margin: 0 auto; }
 .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 16px; }
 .testi-card { background: var(--white); border: 1px solid rgba(27,78,107,0.08); padding: 32px; }
@@ -345,7 +345,7 @@ nav {
 .testi-meta { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
 .testi-meta strong { display: block; font-style: normal; margin-bottom: 2px; color: var(--text); font-weight: 500; font-family: var(--font-body); font-size: 13px; }
 
-/* ── FOOTER ── */
+/* â”€â”€ FOOTER â”€â”€ */
 footer { background: var(--navy); padding: 48px; text-align: center; }
 .footer-logo { font-family: var(--font-display); font-style: italic; font-size: 32px; color: var(--white); margin-bottom: 12px; }
 .footer-tagline { font-size: 13px; color: var(--powder); margin-bottom: 24px; }
@@ -357,13 +357,55 @@ footer { background: var(--navy); padding: 48px; text-align: center; }
 .footer-links a:hover { color: var(--white); }
 .footer-fine { font-size: 11px; color: rgba(200,220,232,0.4); margin-top: 24px; }
 
-/* ── ANIMATIONS ── */
+/* â”€â”€ ANIMATIONS â”€â”€ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
+/* Scale 10 */
+.scale10-wrap {
+  display: flex; gap: 5px; flex-wrap: wrap;
+}
+.scale10-btn {
+  width: 44px; height: 44px;
+  border: 1.5px solid var(--powder);
+  background: transparent; color: var(--muted);
+  font-family: var(--font-display); font-size: 16px; font-weight: 600;
+  cursor: pointer; transition: all var(--transition);
+  flex-shrink: 0;
+}
+.scale10-btn:hover { border-color: var(--navy); color: var(--navy); background: rgba(27,78,107,0.04); }
+.scale10-btn.selected { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
+/* Text input */
+.text-input {
+  width: 100%; padding: 14px 16px;
+  border: 1.5px solid var(--powder);
+  background: transparent;
+  font-family: var(--font-body); font-size: 14px; color: var(--text);
+  line-height: 1.6; resize: vertical; outline: none;
+  transition: border-color var(--transition);
+}
+.text-input:focus { border-color: var(--navy); }
+.text-input::placeholder { color: var(--muted); }
+
+/* Conditional card visual indicator */
+.q-card-conditional {
+  border-left: 3px solid var(--navy);
+  background: rgba(200,220,232,0.08);
+}
+
+/* Scale 10 */
+.scale10-wrap {
+  display: flex; gap: 5px; flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .scale10-btn { width: 36px; height: 36px; font-size: 13px; }
+}
+
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
   .hero { padding: 100px 20px 60px; }
