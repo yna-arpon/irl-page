@@ -1,24 +1,10 @@
 import { useState } from "react";
-import type { Answers } from "./types";
 import { SurveyForm } from "./components/SurveyForm";
-import { ThankYouScreen } from "./components/LeadCapture";
+import { ThankYouScreen } from "./components/ThankYou";
 import "./App.css";
 
 export default function App() {
   const [phase, setPhase] = useState<"survey" | "done">("survey");
-  const [finalAnswers, setFinalAnswers] = useState<Answers>({});
-
-  const handleComplete = (answers: Answers) => {
-    setFinalAnswers(answers);
-    setPhase("done");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleReset = () => {
-    setFinalAnswers({});
-    setPhase("survey");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <main className="survey-page">
@@ -31,12 +17,22 @@ export default function App() {
               <br />
               Answer honestly — there are no wrong answers.
             </p>
-            <SurveyForm onComplete={handleComplete} />
+            <SurveyForm
+              onComplete={() => {
+                setPhase("done");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
           </>
         )}
 
         {phase === "done" && (
-          <ThankYouScreen answers={finalAnswers} onReset={handleReset} />
+          <ThankYouScreen
+            onReset={() => {
+              setPhase("survey");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+          />
         )}
       </div>
     </main>

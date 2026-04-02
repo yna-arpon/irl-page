@@ -2,23 +2,31 @@ import { useState, useCallback } from "react";
 import type { Answers, Question } from "../../types";
 import { SECTIONS } from "../../data/questions";
 import { QuestionCard } from "../QuestionCard";
+import { postToAirtable } from "../../utils/airtable";
 
 interface SurveyFormProps {
-  onComplete: (answers: Answers) => void;
+  onComplete: () => void;
 }
 
 export function SurveyForm({ onComplete }: SurveyFormProps) {
   const [answers, setAnswers] = useState<Answers>({});
   const [pageIndex, setPageIndex] = useState(0);
 
+  // Contact opt-in state (shown on last page)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [wantsContact, setWantsContact] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const totalPages = SECTIONS.length;
   const section = SECTIONS[pageIndex];
+  const isLastPage = pageIndex === totalPages - 1;
 
   const handleChange = useCallback(
     (qId: string, val: number | string | number[]) => {
       setAnswers((prev) => {
         const next = { ...prev, [qId]: val };
-        // Clear child answers when a conditional parent changes
         if (qId === "q5" && val !== "yes") delete next["q5a"];
         if (qId === "q8" && typeof val === "number" && val < 5)
           delete next["q8a"];
@@ -28,7 +36,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     []
   );
 
-  // A question is "visible" if it has no conditional, or its condition is met
   const isVisible = (q: Question): boolean => {
     if (!q.conditional) return true;
     const parentVal = answers[q.conditional.parent];
@@ -40,7 +47,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     return parentVal === q.conditional.value;
   };
 
-  // All non-text, visible questions on this page must be answered to proceed
   const visibleQs = section.questions.filter(isVisible);
   const requiredQs = visibleQs.filter((q) => q.type !== "text");
   const pageComplete = requiredQs.every((q) => {
@@ -61,21 +67,50 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     setPageIndex((i) => i - 1);
   };
 
-  // Question numbering: count across all sections up to current page
+  const handleSubmit = async () => {
+    if (wantsContact && (!email || !email.includes("@"))) {
+      setEmailError("Please enter a valid email so we can reach you.");
+      return;
+    }
+    setEmailError("");
+    setLoading(true);
+
+    const allQuestions = SECTIONS.flatMap((s) => s.questions);
+    const answersSummary = allQuestions
+      .filter((q) => answers[q.id] !== undefined)
+      .map((q) => {
+        let val = answers[q.id];
+        if (Array.isArray(val))
+          val = (val as number[]).map((i) => q.options![i]).join(", ");
+        return `${q.id}: ${val}`;
+      })
+      .join(" | ");
+
+    await postToAirtable({
+      Name: name || "(not provided)",
+      Email: wantsContact ? email : "(opted out)",
+      WantsContact: wantsContact,
+      Answers: answersSummary,
+    });
+
+    setLoading(false);
+    onComplete();
+  };
+
+  // Global question numbering across pages
   let globalQuestionOffset = 0;
   for (let i = 0; i < pageIndex; i++) {
     globalQuestionOffset += SECTIONS[i].questions.filter(
       (q) => !q.conditional
     ).length;
   }
-
   let nonConditionalCount = 0;
 
   return (
     <div>
       {/* Step indicator */}
       <div className="step-indicator">
-        {SECTIONS.map((_s, i) => (
+        {SECTIONS.map((_, i) => (
           <div
             key={i}
             className={`step-dot ${
@@ -112,6 +147,50 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
         );
       })}
 
+      {/* Contact opt-in — only on last page */}
+      {isLastPage && (
+        <div className="contact-box">
+          <label className="contact-checkbox-row">
+            <input
+              type="checkbox"
+              className="lead-checkbox"
+              checked={wantsContact}
+              onChange={(e) => {
+                setWantsContact(e.target.checked);
+                setEmailError("");
+              }}
+            />
+            <span className="contact-checkbox-label">
+              <strong>I'm open to being contacted.</strong> I'd like to help
+              tackle phone addiction — whether that's a quick follow-up
+              conversation, early access, or sharing more about my experience.
+            </span>
+          </label>
+
+          {wantsContact && (
+            <div className="contact-fields">
+              <input
+                className="lead-input"
+                type="text"
+                placeholder="Your name (optional)"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+              />
+              <input
+                className="lead-input"
+                type="email"
+                placeholder="Your email address *"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+              />
+              {emailError && <p className="form-error">{emailError}</p>}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Navigation */}
       <div className="nav-row">
         {pageIndex > 0 && (
@@ -120,7 +199,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           </button>
         )}
 
-        {pageIndex < totalPages - 1 ? (
+        {!isLastPage ? (
           <button
             className="next-btn"
             disabled={!pageComplete}
@@ -131,10 +210,10 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
         ) : (
           <button
             className="submit-btn"
-            disabled={!pageComplete}
-            onClick={() => onComplete(answers)}
+            disabled={!pageComplete || loading}
+            onClick={handleSubmit}
           >
-            Finish →
+            {loading ? "Submitting..." : "Submit →"}
           </button>
         )}
       </div>
