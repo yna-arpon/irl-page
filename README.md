@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# irl Survey
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── types.ts                          # Shared TS types (Question, Section, Answers)
+├── App.tsx                           # Root — survey form → thank-you screen
+│
+├── data/
+│   └── questions.ts                  # SECTIONS array — edit questions/copy here
+│
+├── utils/
+│   └── airtable.ts                   # postToAirtable() — swap if backend changes
+│
+└── components/
+    ├── inputs/
+    │   └── index.tsx                 # ScaleInput, Scale10Input, TextInput, YNInput, MultiInput
+    ├── QuestionCard.tsx              # Renders one question with conditional visibility
+    ├── SurveyForm/
+    │   └── index.tsx                 # Paginated form with prev/next navigation
+    └── LeadCapture/
+        └── index.tsx                 # ThankYouScreen with contact opt-in checkbox
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Survey flow
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Section 1 — Your habits** (4 questions)
+2. **Section 2 — Past attempts** (3 questions, one conditional)
+3. **Section 3 — Impact on your life** (4 questions, one conditional)
+4. **Final screen** — optional contact opt-in → submits to Airtable
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Adding or reordering sections
+
+Edit `src/data/questions.ts`. Each `Section` has a `title`, optional `subtitle`, and a `questions` array. Questions with a `conditional` field only appear when the parent answer matches.
+
+## Airtable fields submitted
+
+| Field          | Value                                   |
+| -------------- | --------------------------------------- |
+| `Name`         | Name if provided, else `(not provided)` |
+| `Email`        | Email if opted in, else `(opted out)`   |
+| `WantsContact` | boolean                                 |
+| `Answers`      | Pipe-separated `id: value` string       |

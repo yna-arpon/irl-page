@@ -422,3 +422,98 @@ footer { background: var(--navy); padding: 48px; text-align: center; }
   .low-input-row { flex-direction: column; }
   .scale-btn { font-size: 16px; }
 }
+
+/* Step indicator (dots at top of each page) */
+.step-indicator {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--powder, #e8e4dc);
+  transition: background 0.2s;
+}
+.step-dot.active  { background: var(--navy, #1a2744); }
+.step-dot.done    { background: var(--navy, #1a2744); opacity: 0.4; }
+
+.step-label {
+  font-size: 12px;
+  color: var(--muted, #888);
+  margin-bottom: 24px;
+}
+
+/* Section header */
+.section-header { margin-bottom: 28px; }
+.section-title  { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+.section-subtitle { font-size: 14px; color: var(--muted, #888); margin: 0; }
+
+/* Prev / Next navigation row */
+.nav-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+}
+.back-btn {
+  background: transparent;
+  border: 1px solid var(--navy, #1a2744);
+  color: var(--navy, #1a2744);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.next-btn {
+  background: var(--navy, #1a2744);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Thank-you / final screen */
+.thankyou-screen {
+  text-align: center;
+  padding: 24px 0;
+}
+.thankyou-icon  { font-size: 48px; margin-bottom: 16px; }
+.thankyou-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
+.thankyou-sub   { font-size: 15px; color: var(--muted, #888); max-width: 420px; margin: 0 auto 28px; line-height: 1.6; }
+
+/* Contact opt-in box */
+.contact-box {
+  background: var(--powder, #f5f2ec);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0 auto 24px;
+  max-width: 480px;
+  text-align: left;
+}
+.contact-checkbox-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.contact-checkbox-label {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.contact-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+.form-error {
+  font-size: 12px;
+  color: #c0392b;
+  margin-top: 8px;
+}

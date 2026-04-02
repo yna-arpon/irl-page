@@ -1,0 +1,26 @@
+export type QuestionType = 'scale' | 'scale10' | 'yn' | 'multi' | 'text'
+ 
+export interface Conditional {
+  parent: string
+  value?: string
+  minValue?: number
+}
+ 
+export interface Question {
+  id: string
+  text: string
+  sub: string | null
+  type: QuestionType
+  low?: string
+  high?: string
+  conditional?: Conditional
+  options?: string[]
+}
+ 
+export interface Section {
+  title: string
+  subtitle?: string
+  questions: Question[]
+}
+ 
+export type Answers = Record<string, number | string | number[]>
