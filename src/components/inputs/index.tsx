@@ -158,3 +158,38 @@ export function MultiInput({
     </div>
   );
 }
+
+// ── SingleInput ────────────────────────────────────────────────
+interface SingleInputProps {
+  qId: string;
+  options: string[];
+  value: number | null;
+  onChange: (qId: string, val: number) => void;
+}
+
+export function SingleInput({
+  qId,
+  options,
+  value,
+  onChange,
+}: SingleInputProps) {
+  return (
+    <div>
+      <div className="single-wrap">
+        {options.map((opt, idx) => (
+          <button
+            key={idx}
+            className={`single-btn ${value === idx ? "selected" : ""}`}
+            onClick={() => onChange(qId, idx)}
+          >
+            <span className="check">{value === idx ? "✓" : ""}</span>
+            {opt}
+          </button>
+        ))}
+      </div>
+      <div style={{ fontSize: "11px", color: "var(--muted)", marginTop: "10px" }}>
+        Select one option, then continue
+      </div>
+    </div>
+  );
+}

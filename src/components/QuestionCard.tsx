@@ -5,6 +5,7 @@ import {
   TextInput,
   YNInput,
   MultiInput,
+  SingleInput,
 } from "./inputs";
 
 interface QuestionCardProps {
@@ -69,6 +70,14 @@ export function QuestionCard({
           qId={q.id}
           options={q.options!}
           value={(answers[q.id] as number[]) || []}
+          onChange={onChange}
+        />
+      )}
+      {q.type === "single" && (
+        <SingleInput
+          qId={q.id}
+          options={q.options!}
+          value={answers[q.id] !== undefined ? (answers[q.id] as number) : null}
           onChange={onChange}
         />
       )}

@@ -214,6 +214,18 @@ nav {
   flex-shrink: 0; font-size: 10px;
 }
 
+/* Single */
+.single-wrap { display: flex; flex-direction: column; gap: 8px; }
+.single-btn {
+  width: 100%; padding: 14px 18px; border: 1.5px solid var(--powder);
+  background: transparent; color: var(--text);
+  font-family: var(--font-body); font-size: 14px; cursor: pointer;
+  text-align: left; transition: all var(--transition);
+  display: flex; align-items: center; gap: 12px;
+}
+.single-btn:hover { border-color: var(--navy); background: rgba(27,78,107,0.04);  }
+.single-btn.selected { border-color: var(--navy); background: var(--navy); color: var(--white); }
+
 /* Yes/No */
 .yn-wrap { display: flex; gap: 12px; }
 .yn-btn {

@@ -2,15 +2,20 @@ import type { Section } from '../types'
 
 export const SECTIONS: Section[] = [
   {
-    title: 'Your habits',
-    subtitle: 'A few questions about how you use your phone day-to-day.',
+    title: 'About you',
+    // subtitle: 'A few questions about how you use your phone day-to-day.',
     questions: [
       {
         id: 'q1',
-        text: 'How motivated are you to reduce your daily screen time?',
-        sub: '1 = not even thinking about it. 5 = fully committed.',
-        type: 'scale',
-        low: 'Not at all', high: 'Fully committed',
+        text: 'Please select your age from the ranges below',
+        sub: null,
+        type: 'single',
+        options: [
+          'Under 18',
+          '18-24',
+          '25-40',
+          '40+',
+        ],
       },
       {
         id: 'q2',

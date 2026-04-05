@@ -1,4 +1,4 @@
-export type QuestionType = 'scale' | 'scale10' | 'yn' | 'multi' | 'text'
+export type QuestionType = 'scale' | 'scale10' | 'yn' | 'multi' | 'text' | 'single'
  
 export interface Conditional {
   parent: string
