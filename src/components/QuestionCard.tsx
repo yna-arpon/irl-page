@@ -24,11 +24,16 @@ export function QuestionCard({
   // Evaluate conditional visibility
   if (q.conditional) {
     const parentVal = answers[q.conditional.parent];
-    if (q.conditional.minValue !== undefined) {
+    const targetVal = q.conditional.value;
+
+    if (Array.isArray(parentVal)) { // Multi-select parent
+      if (!parentVal.includes(targetVal as any)) return null;
+    }
+    else if (q.conditional.minValue !== undefined) { // Scale values
       if (typeof parentVal !== "number" || parentVal < q.conditional.minValue)
         return null;
-    } else {
-      if (parentVal !== q.conditional.value) return null;
+    } else { // Single select / Y/N 
+      if (parentVal !== targetVal) return null;
     }
   }
 
