@@ -27,7 +27,15 @@ export const SECTIONS: Section[] = [
           'Employed',
           'Funemployed',
           'Retired',
-        ]
+        ],
+      },
+      {
+        id: 'q2a',
+        text: 'What do you do for work?',
+        sub: 'If you selected "Employed" above, please share a bit about your job.',
+        type: 'text',
+        placeholder: 'e.g., Software engineering intern, Barista, Technician, etc.',
+        conditional: { parent: 'q2', value: 1 },
       },
       {
         id: 'q3',

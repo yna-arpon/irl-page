@@ -78,14 +78,15 @@ export function Scale10Input({
 interface TextInputProps {
   qId: string;
   value: string | undefined;
+  placeholder?: string;
   onChange: (qId: string, val: string) => void;
 }
 
-export function TextInput({ qId, value, onChange }: TextInputProps) {
+export function TextInput({ qId, value, placeholder, onChange }: TextInputProps) {
   return (
     <textarea
       className="text-input"
-      placeholder="e.g. time with family, focus at work, sleep, hobbies I used to love..."
+      placeholder={placeholder || "Type your answer here..."}
       value={value || ""}
       onChange={(e) => onChange(qId, e.target.value)}
       rows={3}

@@ -85,6 +85,7 @@ export function QuestionCard({
         <TextInput
           qId={q.id}
           value={answers[q.id] as string | undefined}
+          placeholder={q.placeholder}
           onChange={onChange}
         />
       )}

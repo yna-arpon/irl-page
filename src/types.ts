@@ -2,7 +2,7 @@ export type QuestionType = 'scale' | 'scale10' | 'yn' | 'multi' | 'text' | 'sing
  
 export interface Conditional {
   parent: string
-  value?: string
+  value?: string | number
   minValue?: number
 }
  
@@ -15,6 +15,7 @@ export interface Question {
   high?: string
   conditional?: Conditional
   options?: string[]
+  placeholder?: string
 }
  
 export interface Section {
