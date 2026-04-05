@@ -124,14 +124,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
         <strong>{section.title}</strong>
       </div>
 
-      {/* Section header */}
-      <div className="section-header">
-        <h2 className="section-title">{section.title}</h2>
-        {section.subtitle && (
-          <p className="section-subtitle">{section.subtitle}</p>
-        )}
-      </div>
-
       {/* Questions */}
       {section.questions.map((q) => {
         if (!q.conditional) nonConditionalCount++;

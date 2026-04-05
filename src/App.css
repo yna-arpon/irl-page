@@ -164,7 +164,7 @@ nav {
   font-size: clamp(34px, 5vw, 56px); font-weight: 400;
   color: var(--navy); line-height: 1.1; margin-bottom: 12px; text-align: center;
 }
-.survey-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 56px; line-height: 1.7; }
+.survey-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 16px; line-height: 1.7; }
 
 /* Progress */
 .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -427,7 +427,8 @@ footer { background: var(--navy); padding: 48px; text-align: center; }
 .step-indicator {
   display: flex;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  justify-content: center;
 }
 .step-dot {
   width: 8px;
@@ -442,13 +443,8 @@ footer { background: var(--navy); padding: 48px; text-align: center; }
 .step-label {
   font-size: 12px;
   color: var(--muted, #888);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
-
-/* Section header */
-.section-header { margin-bottom: 28px; }
-.section-title  { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
-.section-subtitle { font-size: 14px; color: var(--muted, #888); margin: 0; }
 
 /* Prev / Next navigation row */
 .nav-row {
