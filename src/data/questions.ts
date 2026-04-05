@@ -19,31 +19,27 @@ export const SECTIONS: Section[] = [
       },
       {
         id: 'q2',
-        text: 'You see a notification appear. How long can you genuinely wait before checking it?',
-        sub: '1 = you already opened it while reading this question.',
-        type: 'scale',
-        low: 'Immediately', high: 'Hours later',
+        text: 'What is your occupation?',
+        sub: null,
+        type: 'single',
+        options: [
+          'Student',
+          'Employed',
+          'Funemployed',
+          'Retired',
+        ]
       },
       {
         id: 'q3',
-        text: 'What typically triggers you to reach for your phone?',
-        sub: 'Select all that apply.',
-        type: 'multi',
+        text: 'What is your gender?',
+        sub: null,
+        type: 'single',
         options: [
-          'Boredom',
-          'Anxiety or stress',
-          'Loneliness',
-          'Avoiding something',
-          'Pure habit — no reason',
-          'FOMO / checking in',
-        ],
-      },
-      {
-        id: 'q4',
-        text: "There's a pause in a conversation. What do you do?",
-        sub: '1 = reach for your phone. 5 = hold the silence.',
-        type: 'scale',
-        low: 'Reach for phone', high: 'Stay present',
+          'Male',
+          'Female',
+          'Non-binary',
+          'Prefer not to say'
+        ]
       },
     ],
   },
