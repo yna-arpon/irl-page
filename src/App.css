@@ -338,20 +338,6 @@ nav {
   background: rgba(200,220,232,0.08);
 }
 
-/* Scale 10 */
-.scale10-wrap {
-  display: flex; 
-  gap: 5px; 
-  flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-  .scale10-btn { width: 36px;
-    height: 36px;
-    font-size: 13px; 
-  }
-}
-
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
   .survey-section { padding: 72px 16px; }

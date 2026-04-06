@@ -1,7 +1,6 @@
 import type { Question, Answers } from "../types";
 import {
   ScaleInput,
-  Scale10Input,
   TextInput,
   YNInput,
   MultiInput,
@@ -26,13 +25,15 @@ export function QuestionCard({
     const parentVal = answers[q.conditional.parent];
     const targetVal = q.conditional.value;
 
-    if (Array.isArray(parentVal)) { // Multi-select parent
+    if (Array.isArray(parentVal)) {
+      // Multi-select parent
       if (!parentVal.includes(targetVal as any)) return null;
-    }
-    else if (q.conditional.minValue !== undefined) { // Scale values
+    } else if (q.conditional.minValue !== undefined) {
+      // Scale values
       if (typeof parentVal !== "number" || parentVal < q.conditional.minValue)
         return null;
-    } else { // Single select / Y/N 
+    } else {
+      // Single select / Y/N
       if (parentVal !== targetVal) return null;
     }
   }
@@ -47,15 +48,6 @@ export function QuestionCard({
 
       {q.type === "scale" && (
         <ScaleInput
-          qId={q.id}
-          value={answers[q.id] as number | undefined}
-          low={q.low!}
-          high={q.high!}
-          onChange={onChange}
-        />
-      )}
-      {q.type === "scale10" && (
-        <Scale10Input
           qId={q.id}
           value={answers[q.id] as number | undefined}
           low={q.low!}
