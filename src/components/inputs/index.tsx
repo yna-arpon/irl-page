@@ -36,44 +36,6 @@ export function ScaleInput({
   );
 }
 
-// ── Scale10Input ──────────────────────────────────────────────
-interface Scale10InputProps {
-  qId: string;
-  value: number | undefined;
-  low: string;
-  high: string;
-  onChange: (qId: string, val: number) => void;
-}
-
-export function Scale10Input({
-  qId,
-  value,
-  low,
-  high,
-  onChange,
-}: Scale10InputProps) {
-  return (
-    <div>
-      <div className="scale10-wrap">
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => (
-          <button
-            key={v}
-            className={`scale10-btn ${value === v ? "selected" : ""}`}
-            onClick={() => onChange(qId, v)}
-            aria-label={`${v}`}
-          >
-            {v}
-          </button>
-        ))}
-      </div>
-      <div className="scale-labels">
-        <span>{low}</span>
-        <span>{high}</span>
-      </div>
-    </div>
-  );
-}
-
 // ── TextInput ─────────────────────────────────────────────────
 interface TextInputProps {
   qId: string;
@@ -82,7 +44,12 @@ interface TextInputProps {
   onChange: (qId: string, val: string) => void;
 }
 
-export function TextInput({ qId, value, placeholder, onChange }: TextInputProps) {
+export function TextInput({
+  qId,
+  value,
+  placeholder,
+  onChange,
+}: TextInputProps) {
   return (
     <textarea
       className="text-input"
@@ -188,7 +155,9 @@ export function SingleInput({
           </button>
         ))}
       </div>
-      <div style={{ fontSize: "11px", color: "var(--muted)", marginTop: "10px" }}>
+      <div
+        style={{ fontSize: "11px", color: "var(--muted)", marginTop: "10px" }}
+      >
         Select one option, then continue
       </div>
     </div>
