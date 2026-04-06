@@ -78,18 +78,11 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     setFinalScore(score); 
 
     if (!showingBonus) {
+      if (score > 15) setIsHighScorer(true);
       setShowingBonus(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    
-    // BRANCH: If high score and we haven't shown bonus questions yet, stop and show them
-    // if (currentScore > 15 && !showingBonus) {
-    //   setIsHighScorer(true);
-    //   setShowingBonus(true);
-    //   window.scrollTo({ top: 0, behavior: "smooth" });
-    //   return; 
-    // }
 
     // VALIDATION: Only check email if they want to be contacted
     if (wantsContact && (!email || !email.includes("@"))) {
@@ -137,10 +130,12 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
   }
 
   const bonus = BONUS_SECTION[0];
-  const currentQuestions = showingBonus ? bonus.questions : section.questions;
+  const currentQuestions = showingBonus 
+  ? (finalScore !== null && finalScore > 15 ? bonus.questions : []) 
+  : section.questions;
 
-  const isHigh = finalScore !== null && finalScore > 15;
-  const isMed  = finalScore !== null && finalScore > 8 && finalScore <= 15;
+  const isHigh = finalScore !== null && finalScore > 25;
+  const isMed  = finalScore !== null && finalScore > 15 && finalScore <= 25;
   const scoreColor = isHigh ? "#C0392B" : isMed ? "#D4AC0D" : "#2E7D5E";
   const label = isHigh ? "HIGH" : isMed ? "MODERATE" : "LOW";
 
@@ -211,7 +206,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           letterSpacing: '0.1em',
           borderRadius: '4px'
         }}>
-          {finalScore > 15 ? "HIGH" : finalScore > 8 ? "MODERATE" : "LOW"} ADDICTION
+          {finalScore > 25 ? "HIGH" : finalScore > 15 ? "MODERATE" : "LOW"} ADDICTION
         </div>
       </div>
     )}
