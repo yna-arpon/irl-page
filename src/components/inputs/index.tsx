@@ -150,7 +150,9 @@ export function SingleInput({
             className={`single-btn ${value === idx ? "selected" : ""}`}
             onClick={() => onChange(qId, idx)}
           >
-            <span className="check">{value === idx ? "✓" : ""}</span>
+            <span className={`radio ${value === idx ? "radio-selected" : ""}`}>
+              {value === idx ? "✓" : ""}
+            </span>
             {opt}
           </button>
         ))}
