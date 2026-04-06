@@ -16,6 +16,7 @@ export const SECTIONS: Section[] = [
           '25-40',
           '40+',
         ],
+        isDemographic: true,
       },
       {
         id: 'q2',
@@ -28,6 +29,7 @@ export const SECTIONS: Section[] = [
           'Funemployed',
           'Retired',
         ],
+        isDemographic: true,
       },
       {
         id: 'q2a',
@@ -36,6 +38,7 @@ export const SECTIONS: Section[] = [
         type: 'text',
         placeholder: 'e.g., Software engineering intern, Barista, Technician, etc.',
         conditional: { parent: 'q2', value: 1 },
+        isDemographic: true,
       },
       {
         id: 'q3',
@@ -47,7 +50,8 @@ export const SECTIONS: Section[] = [
           'Female',
           'Non-binary',
           'Prefer not to say'
-        ]
+        ],
+        isDemographic: true,
       },
     ],
   },
@@ -223,38 +227,54 @@ export const SECTIONS: Section[] = [
       }
     ],
   },
+]
+
+export const BONUS_SECTION: Section[] = [
   {
-    title: 'Impact on your life',
-    subtitle: 'Help us understand what phone use actually costs you.',
+    title: 'Deep Dive',
+    subtitle: 'Since you scored high on the previous questions, we\'d love to understand more about your experience.',
     questions: [
       {
-        id: 'q7',
-        text: "Your algorithm knows your emotional state better than your closest friends. How okay are you with that?",
+        id: 'b1',
+        text: 'What do you like about your current tools?',
         sub: null,
-        type: 'scale',
-        low: 'Honestly fine', high: "That's a real problem",
+        type: 'multi',
+        options: [
+          'They\'re easy to use',
+          'They provide good insights',
+          'They help me stay accountable',
+          'Other'
+        ]
       },
       {
-        id: 'q8',
-        text: 'How much does your phone use take away from your life?',
-        sub: "0 = no impact at all. 10 = it's costing you things that matter.",
-        type: 'scale10',
-        low: 'No impact', high: 'Significant cost',
+        id: 'b2',
+        text: 'What don\'t you like about your current tools?',
+        sub: null,
+        type: 'multi',
+        options: [
+          'They\'re hard to use',
+          'They don\'t provide good insights',
+          'They don\'t help me stay accountable',
+          'Other'
+        ]
       },
       {
-        id: 'q8a',
-        text: 'What does it take away from?',
+        id: 'b3',
+        text: 'What tools do you feel would help you cut down on screen time?',
+        sub: 'Be as specific as you like.',
+        type: 'multi',
+        options: [
+          'App blockers',
+          'Screen time limits',
+          'Shared progress or accountability with friends'
+        ]
+      },
+      {
+        id: 'b4',
+        text: 'If you could wave a magic wand and change anything about your phone usage, what would it be?',
         sub: 'Be as specific as you like.',
         type: 'text',
-        conditional: { parent: 'q8', minValue: 5 },
-      },
-      {
-        id: 'q9',
-        text: 'How willing are you to spend 60 uninterrupted minutes with zero screens of any kind?',
-        sub: 'Phone, laptop, TV, watch — all of it. Gone. For one hour.',
-        type: 'scale',
-        low: 'That sounds awful', high: 'Done it today',
-      },
-    ],
-  },
+      }
+    ]
+  }
 ]

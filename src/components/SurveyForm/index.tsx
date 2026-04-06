@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
 import type { Answers, Question } from "../../types";
-import { SECTIONS } from "../../data/questions";
+import { BONUS_SECTION, SECTIONS } from "../../data/questions";
 import { QuestionCard } from "../QuestionCard";
 import { postToAirtable } from "../../utils/airtable";
+import { calculateTotalScore } from "../../utils/scoring";
 
 interface SurveyFormProps {
-  onComplete: () => void;
+  onComplete: (score: number) => void;
 }
 
 export function SurveyForm({ onComplete }: SurveyFormProps) {
@@ -67,15 +68,31 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     setPageIndex((i) => i - 1);
   };
 
+  const [isHighScorer, setIsHighScorer] = useState(false);
+  const [showingBonus, setShowingBonus] = useState(false);
+
   const handleSubmit = async () => {
+
+    const currentScore = calculateTotalScore(answers);  
+    
+    // BRANCH: If high score and we haven't shown bonus questions yet, stop and show them
+    if (currentScore > 15 && !showingBonus) {
+      setIsHighScorer(true);
+      setShowingBonus(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return; 
+    }
+
+    // VALIDATION: Only check email if they want to be contacted
     if (wantsContact && (!email || !email.includes("@"))) {
       setEmailError("Please enter a valid email so we can reach you.");
       return;
     }
-    setEmailError("");
+
     setLoading(true);
 
-    const allQuestions = SECTIONS.flatMap((s) => s.questions);
+    // Prep data for Airtable
+    const allQuestions = [...SECTIONS.flatMap((s) => s.questions), ...BONUS_SECTION[0].questions];
     const answersSummary = allQuestions
       .filter((q) => answers[q.id] !== undefined)
       .map((q) => {
@@ -91,10 +108,11 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       Email: wantsContact ? email : "(opted out)",
       WantsContact: wantsContact,
       Answers: answersSummary,
+      score: currentScore,
     });
 
     setLoading(false);
-    onComplete();
+    onComplete(currentScore);
   };
 
   // Global question numbering across pages
@@ -104,12 +122,19 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       (q) => !q.conditional
     ).length;
   }
-  let nonConditionalCount = 0;
+
+  // Extract the single bonus section object safely
+  const bonus = BONUS_SECTION[0];
+
+  const currentQuestions = showingBonus ? bonus.questions : section.questions;
+  const currentTitle = showingBonus ? bonus.title : section.title;
+  const currentSubtitle = showingBonus ? bonus.subtitle : section.subtitle;
 
   return (
     <div>
       {/* Step indicator */}
-      <div className="step-indicator">
+      {!showingBonus && (
+        <div className="step-indicator">
         {SECTIONS.map((_, i) => (
           <div
             key={i}
@@ -119,13 +144,23 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           />
         ))}
       </div>
+      )}
       <div className="step-label">
-        Section {pageIndex + 1} of {totalPages} —{" "}
-        <strong>{section.title}</strong>
+        {showingBonus ? "Bonus Section" : `Section ${pageIndex + 1} of ${totalPages}`} —{" "}
+        <strong>{showingBonus ? BONUS_SECTION[0].title: section.title}</strong>
       </div>
 
       {/* Questions */}
-      {section.questions.map((q) => {
+      {currentQuestions.map((q, idx) => (
+        <QuestionCard
+          key={q.id}
+          q={q}
+          answers={answers}
+          onChange={handleChange}
+          index={idx + 1} // Simplified index for bonus
+        />
+      ))}
+      {/* {section.questions.map((q) => {
         if (!q.conditional) nonConditionalCount++;
         const displayIndex = globalQuestionOffset + nonConditionalCount;
         return (
@@ -137,10 +172,10 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
             index={displayIndex}
           />
         );
-      })}
+      })} */}
 
       {/* Contact opt-in — only on last page */}
-      {isLastPage && (
+      {(isLastPage || showingBonus) && (
         <div className="contact-box">
           <label className="contact-checkbox-row">
             <input
@@ -191,7 +226,8 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           </button>
         )}
 
-        {!isLastPage ? (
+        {/* {!isLastPage ? ( */}
+        {!isLastPage && !showingBonus ? (
           <button
             className="next-btn"
             disabled={!pageComplete}
@@ -202,7 +238,8 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
         ) : (
           <button
             className="submit-btn"
-            disabled={!pageComplete || loading}
+            disabled={loading}
+            // disabled={!pageComplete || loading}
             onClick={handleSubmit}
           >
             {loading ? "Submitting..." : "Submit →"}

@@ -1,4 +1,4 @@
-export type QuestionType = 'scale' | 'scale10' | 'yn' | 'multi' | 'text' | 'single'
+export type QuestionType = 'scale' | 'yn' | 'multi' | 'text' | 'single'
  
 export interface Conditional {
   parent: string
@@ -16,6 +16,8 @@ export interface Question {
   conditional?: Conditional
   options?: string[]
   placeholder?: string
+  isDemographic?: boolean;
+  scoringWeight?: number;
 }
  
 export interface Section {
