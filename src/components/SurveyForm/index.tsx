@@ -73,9 +73,8 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
   const [finalScore, setFinalScore] = useState<number | null>(null);
 
   const handleSubmit = async () => {
-    
-    const score = calculateTotalScore(answers); 
-    setFinalScore(score); 
+    const score = calculateTotalScore(answers);
+    setFinalScore(score);
 
     if (!showingBonus) {
       if (score > 15) setIsHighScorer(true);
@@ -93,7 +92,10 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     setLoading(true);
 
     // Prep data for Airtable
-    const allQuestions = [...SECTIONS.flatMap((s) => s.questions), ...BONUS_SECTION[0].questions];
+    const allQuestions = [
+      ...SECTIONS.flatMap((s) => s.questions),
+      ...BONUS_SECTION[0].questions,
+    ];
     const answersSummary = allQuestions
       .filter((q) => answers[q.id] !== undefined)
       .map((q) => {
@@ -117,7 +119,9 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     if (success) {
       onComplete(score);
     } else {
-      alert("Something went wrong submitting your responses. Please try again.");
+      alert(
+        "Something went wrong submitting your responses. Please try again."
+      );
     }
   };
 
@@ -130,12 +134,14 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
   }
 
   const bonus = BONUS_SECTION[0];
-  const currentQuestions = showingBonus 
-  ? (finalScore !== null && finalScore > 15 ? bonus.questions : []) 
-  : section.questions;
+  const currentQuestions = showingBonus
+    ? finalScore !== null && finalScore > 15
+      ? bonus.questions
+      : []
+    : section.questions;
 
   const isHigh = finalScore !== null && finalScore > 25;
-  const isMed  = finalScore !== null && finalScore > 15 && finalScore <= 25;
+  const isMed = finalScore !== null && finalScore > 15 && finalScore <= 25;
   const scoreColor = isHigh ? "#C0392B" : isMed ? "#D4AC0D" : "#2E7D5E";
   const label = isHigh ? "HIGH" : isMed ? "MODERATE" : "LOW";
 
@@ -143,22 +149,26 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     <div>
       {/* Step indicator */}
       <div className="step-indicator">
-        {[...SECTIONS, ...(isHighScorer ? [BONUS_SECTION[0]] : [])].map((_, i) => {
-          // Logic for the dots:
-          // 1. A dot is "done" if we've passed that pageIndex AND we aren't in bonus mode
-          // 2. A dot is "active" if it's the current pageIndex OR if it's the bonus dot and we are showing bonus
-          const isBonusDot = i === SECTIONS.length;
-          const isActive = showingBonus ? isBonusDot : (i === pageIndex);
-          const isDone = showingBonus ? i < SECTIONS.length : (i < pageIndex);
+        {[...SECTIONS, ...(isHighScorer ? [BONUS_SECTION[0]] : [])].map(
+          (_, i) => {
+            // Logic for the dots:
+            // 1. A dot is "done" if we've passed that pageIndex AND we aren't in bonus mode
+            // 2. A dot is "active" if it's the current pageIndex OR if it's the bonus dot and we are showing bonus
+            const isBonusDot = i === SECTIONS.length;
+            const isActive = showingBonus ? isBonusDot : i === pageIndex;
+            const isDone = showingBonus ? i < SECTIONS.length : i < pageIndex;
 
-          return (
-            <div
-              key={i}
-              className={`step-dot ${isDone ? "done" : isActive ? "active" : ""}`}
-            />
-          );
-        })}
-      {/* {SECTIONS.map((_, i) => (
+            return (
+              <div
+                key={i}
+                className={`step-dot ${
+                  isDone ? "done" : isActive ? "active" : ""
+                }`}
+              />
+            );
+          }
+        )}
+        {/* {SECTIONS.map((_, i) => (
         <div
           key={i}
           className={`step-dot ${
@@ -166,61 +176,87 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           }`}
         />
       ))} */}
-    </div>
-    <div className="step-label">
-      {showingBonus 
-        ? `Bonus Section` 
-        : `Section ${pageIndex + 1} of ${totalPages}`
-      } — <strong>{showingBonus ? BONUS_SECTION[0].title : section.title}</strong>
-    </div>
-
-    {/* Score display */}
-    {showingBonus && finalScore !== null && (
-      <div className="score-summary-card" style={{ 
-        textAlign: 'center', 
-        padding: '40px 20px', 
-        background: 'var(--white)', 
-        border: '1px solid rgba(27,78,107,0.1)',
-        marginBottom: '32px',
-        animation: 'fadeUp 0.5s ease'
-      }}>
-        <div style={{ fontSize: '11px', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase' }}>
-          Your Dependency Score
-        </div>
-        <div style={{ 
-          fontSize: '72px', 
-          fontFamily: 'var(--font-display)', 
-          fontWeight: 'bold',
-          color: finalScore > 15 ? "#C0392B" : finalScore > 8 ? "#D4AC0D" : "#2E7D5E",
-          margin: '10px 0' 
-        }}>
-          {finalScore}
-        </div>
-        <div style={{ 
-          display: 'inline-block',
-          padding: '6px 16px',
-          background: finalScore > 15 ? "#C0392B" : finalScore > 8 ? "#D4AC0D" : "#2E7D5E",
-          color: 'white',
-          fontSize: '10px',
-          fontWeight: 'bold',
-          letterSpacing: '0.1em',
-          borderRadius: '4px'
-        }}>
-          {finalScore > 25 ? "HIGH" : finalScore > 15 ? "MODERATE" : "LOW"} ADDICTION
-        </div>
       </div>
-    )}
+      <div className="step-label">
+        {showingBonus
+          ? `Bonus Section`
+          : `Section ${pageIndex + 1} of ${totalPages}`}{" "}
+        —{" "}
+        <strong>{showingBonus ? BONUS_SECTION[0].title : section.title}</strong>
+      </div>
 
-    {/* Questions (Regular or Bonus) */}
-    {currentQuestions.map((q, idx) => (
-      <QuestionCard
-        key={q.id}
-        q={q}
-        answers={answers}
-        onChange={handleChange}
-        index={idx + 1} // Simplified index for bonus
-      />
-    ))}
+      {/* Score display */}
+      {showingBonus && finalScore !== null && (
+        <div
+          className="score-summary-card"
+          style={{
+            textAlign: "center",
+            padding: "40px 20px",
+            background: "var(--white)",
+            border: "1px solid rgba(27,78,107,0.1)",
+            marginBottom: "32px",
+            animation: "fadeUp 0.5s ease",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "11px",
+              letterSpacing: "0.15em",
+              color: "var(--muted)",
+              textTransform: "uppercase",
+            }}
+          >
+            Your Dependency Score
+          </div>
+          <div
+            style={{
+              fontSize: "72px",
+              fontFamily: "var(--font-display)",
+              fontWeight: "bold",
+              color:
+                finalScore > 15
+                  ? "#C0392B"
+                  : finalScore > 8
+                  ? "#D4AC0D"
+                  : "#2E7D5E",
+              margin: "10px 0",
+            }}
+          >
+            {finalScore}
+          </div>
+          <div
+            style={{
+              display: "inline-block",
+              padding: "6px 16px",
+              background:
+                finalScore > 15
+                  ? "#C0392B"
+                  : finalScore > 8
+                  ? "#D4AC0D"
+                  : "#2E7D5E",
+              color: "white",
+              fontSize: "10px",
+              fontWeight: "bold",
+              letterSpacing: "0.1em",
+              borderRadius: "4px",
+            }}
+          >
+            {finalScore > 25 ? "HIGH" : finalScore > 15 ? "MODERATE" : "LOW"}{" "}
+            ADDICTION
+          </div>
+        </div>
+      )}
+
+      {/* Questions (Regular or Bonus) */}
+      {currentQuestions.map((q, idx) => (
+        <QuestionCard
+          key={q.id}
+          q={q}
+          answers={answers}
+          onChange={handleChange}
+          index={idx + 1} // Simplified index for bonus
+        />
+      ))}
       {/* {section.questions.map((q) => {
         if (!q.conditional) nonConditionalCount++;
         const displayIndex = globalQuestionOffset + nonConditionalCount;

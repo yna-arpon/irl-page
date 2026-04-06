@@ -1,5 +1,7 @@
 /* â”€â”€ FONTS â”€â”€ */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 /* â”€â”€ RESET & TOKENS â”€â”€ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,7 +17,7 @@
   --muted:   #6B7A85;
   --text:    #163F57;
   --white:   #FFFFFF;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-display: '"Noto Serif Display", serif';
   --font-body:    'DM Sans', system-ui, sans-serif;
   --transition: 0.25s ease;
 }
