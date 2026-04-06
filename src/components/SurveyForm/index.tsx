@@ -133,21 +133,38 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
   return (
     <div>
       {/* Step indicator */}
-      {!showingBonus && (
+      {/* {!showingBonus && ( */}
         <div className="step-indicator">
-        {SECTIONS.map((_, i) => (
+          {[...SECTIONS, ...(isHighScorer ? [BONUS_SECTION[0]] : [])].map((_, i) => {
+            // Logic for the dots:
+            // 1. A dot is "done" if we've passed that pageIndex AND we aren't in bonus mode
+            // 2. A dot is "active" if it's the current pageIndex OR if it's the bonus dot and we are showing bonus
+            const isBonusDot = i === SECTIONS.length;
+            const isActive = showingBonus ? isBonusDot : (i === pageIndex);
+            const isDone = showingBonus ? i < SECTIONS.length : (i < pageIndex);
+
+            return (
+              <div
+                key={i}
+                className={`step-dot ${isDone ? "done" : isActive ? "active" : ""}`}
+              />
+            );
+          })}
+        {/* {SECTIONS.map((_, i) => (
           <div
             key={i}
             className={`step-dot ${
               i < pageIndex ? "done" : i === pageIndex ? "active" : ""
             }`}
           />
-        ))}
+        ))} */}
       </div>
-      )}
+      {/* )} */}
       <div className="step-label">
-        {showingBonus ? "Bonus Section" : `Section ${pageIndex + 1} of ${totalPages}`} —{" "}
-        <strong>{showingBonus ? BONUS_SECTION[0].title: section.title}</strong>
+        {showingBonus 
+          ? `Bonus Section` 
+          : `Section ${pageIndex + 1} of ${totalPages}`
+        } — <strong>{showingBonus ? BONUS_SECTION[0].title : section.title}</strong>
       </div>
 
       {/* Questions */}
