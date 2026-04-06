@@ -13,7 +13,7 @@
   --powder:  #C8DCE8;
   --powder2: #A8C8DA;
   --muted:   #6B7A85;
-  --text:    #1C2B35;
+  --text:    #163F57;
   --white:   #FFFFFF;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'DM Sans', system-ui, sans-serif;
@@ -361,6 +361,7 @@ nav {
   resize: vertical; 
   outline: none;
   transition: border-color var(--transition);
+  border-radius: 5px;
 }
 .text-input:focus { border-color: var(--navy); }
 .text-input::placeholder { color: var(--muted); }
