@@ -7,6 +7,7 @@
 :root {
   --cream:   #F5F0E8;
   --cream2:  #EDE8DF;
+  --cream3:  #ddd0b8;
   --navy:    #1B4E6B;
   --navy2:   #163F57;
   --powder:  #C8DCE8;
@@ -114,12 +115,16 @@ nav {
   padding: 32px; 
   margin-bottom: 16px;
   animation: fadeUp 0.4s ease both;
+  border-radius: 25px;
 }
-.q-num { font-size: 10px; 
+.q-num { 
+  font-size: 10px; 
   letter-spacing: 0.2em; 
   text-transform: uppercase; 
   color: var(--muted); 
-  margin-bottom: 10px; }
+  margin-bottom: 10px; 
+}
+
 .q-text {
   font-family: var(--font-display); 
   font-size: 20px; 
@@ -128,6 +133,7 @@ nav {
   line-height: 1.4; 
   margin-bottom: 6px;
 }
+
 .q-sub { 
   font-size: 12px; 
   color: var(--muted); 
@@ -150,11 +156,12 @@ nav {
   border: 1.5px solid var(--powder);
   background: transparent;
   color: var(--muted);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 20px;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition);
+  border-radius: 5px;
 }
 
 .scale-btn:hover { 
@@ -183,6 +190,7 @@ nav {
   flex-direction: column;
   gap: 8px;
 }
+
 .multi-btn {
   width: 100%;
   padding: 14px 18px;
@@ -197,16 +205,20 @@ nav {
   display: flex;
   align-items: center;
   gap: 12px;
+  border-radius: 5px;
 }
+
 .multi-btn:hover { 
   border-color: var(--navy); 
   background: rgba(27,78,107,0.04); 
 }
+
 .multi-btn.selected { 
   border-color: var(--navy); 
   background: var(--navy); 
   color: var(--white); 
 }
+
 .check {
   width: 18px; 
   height: 18px; 
@@ -216,9 +228,9 @@ nav {
   justify-content: center;
   flex-shrink: 0; 
   font-size: 10px;
+  border-radius: 3px;
 }
 
-/* TO DO: Radio buttons */
 .single-wrap { 
   display: flex;
   flex-direction: column;
@@ -239,6 +251,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 12px;
+  border-radius: 5px;
 }
 
 .radio {
@@ -285,6 +298,7 @@ nav {
   cursor: pointer;
   transition: all var(--transition); 
   color: var(--text);
+  border-radius: 5px;
 }
 .yn-btn:hover { border-color: var(--navy); }
 
@@ -353,8 +367,8 @@ nav {
 
 /* Conditional card visual indicator */
 .q-card-conditional {
-  border-left: 3px solid var(--navy);
-  background: rgba(200,220,232,0.08);
+  border-left: 2px solid var(--navy);
+  background: rgb(255, 255, 255, 0.8);
 }
 
 @media (max-width: 768px) {
@@ -467,4 +481,20 @@ nav {
   font-size: 12px;
   color: #c0392b;
   margin-top: 8px;
+}
+
+/* Lead input */
+.lead-input {
+  width: 100%; 
+  padding: 14px 16px;
+  border: 1.5px solid var(--powder);
+  background: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-body); 
+  font-size: 14px; 
+  color: var(--text);
+  line-height: 1.6; 
+  resize: vertical; 
+  outline: none;
+  transition: border-color var(--transition);
+  border-radius: 5px;
 }
