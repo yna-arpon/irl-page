@@ -147,7 +147,7 @@ export const SECTIONS: Section[] = [
         sub: 'If you selected "Other" above, please share what typically triggers you to reach for your phone.',
         type: 'text',
         placeholder: 'e.g., Text messages, etc.',
-        conditional: { parent: 'q8', value: 6},
+        conditional: { parent: 'q8', value: 7},
       },
       {
         id: 'q9',
