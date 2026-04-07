@@ -142,7 +142,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
 
   const isHigh = finalScore !== null && finalScore > 25;
   const isMed = finalScore !== null && finalScore > 15 && finalScore <= 25;
-  const scoreColor = isHigh ? "#C0392B" : isMed ? "#D4AC0D" : "#2E7D5E";
+  // const scoreColor = isHigh ? "#C0392B" : isMed ? "#D4AC0D" : "#2E7D5E";
   const label = isHigh ? "HIGH" : isMed ? "MODERATE" : "LOW";
 
   return (

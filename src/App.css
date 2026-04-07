@@ -506,3 +506,8 @@ nav {
   transition: border-color var(--transition);
   border-radius: 5px;
 }
+
+/* Hide score summary */
+.score-summary-card {
+  display: none;
+}
