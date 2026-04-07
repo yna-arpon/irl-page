@@ -274,6 +274,29 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       {/* Contact opt-in — only on last page */}
       {(isLastPage || showingBonus) && (
         <div className="contact-box">
+          <h3>Would you like to enter our $50 Amazon Card Giveaway?</h3>
+          <sub>Enter your name and email below</sub>
+
+          <div className="contact-fields">
+            <input
+              className="lead-input"
+              type="text"
+              placeholder="Your name (optional)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+            />
+            <input
+              className="lead-input"
+              type="email"
+              placeholder="Your email address *"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+            {emailError && <p className="form-error">{emailError}</p>}
+          </div>
+
           <label className="contact-checkbox-row">
             <input
               type="checkbox"
@@ -290,28 +313,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
               conversation, early access, or sharing more about my experience.
             </span>
           </label>
-
-          {wantsContact && (
-            <div className="contact-fields">
-              <input
-                className="lead-input"
-                type="text"
-                placeholder="Your name (optional)"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                autoComplete="name"
-              />
-              <input
-                className="lead-input"
-                type="email"
-                placeholder="Your email address *"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-              />
-              {emailError && <p className="form-error">{emailError}</p>}
-            </div>
-          )}
         </div>
       )}
 

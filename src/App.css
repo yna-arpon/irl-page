@@ -469,11 +469,10 @@ nav {
 
 /* Contact opt-in box */
 .contact-box {
-  background: var(--powder, #f5f2ec);
+  background: var(--powder);
   border-radius: 12px;
   padding: 20px;
   margin: 0 auto 24px;
-  max-width: 480px;
   text-align: left;
 }
 
@@ -482,6 +481,7 @@ nav {
   gap: 12px;
   align-items: flex-start;
   cursor: pointer;
+  padding-top: 10px;
 }
 .contact-checkbox-label {
   font-size: 14px;
