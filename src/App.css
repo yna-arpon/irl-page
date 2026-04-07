@@ -17,7 +17,7 @@
   --muted:   #6B7A85;
   --text:    #163F57;
   --white:   #FFFFFF;
-  --font-display: '"Noto Serif Display", serif';
+  --font-display: 'Noto Serif Display", serif';
   --font-body:    'DM Sans', system-ui, sans-serif;
   --transition: 0.25s ease;
 }
@@ -32,6 +32,10 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+h1 {
+  font-weight: 650px;
 }
 
 /* â”€â”€ NAV â”€â”€ */
@@ -102,6 +106,7 @@ nav {
   line-height: 1.1; 
   margin-bottom: 12px; 
   text-align: center;
+  font-weight: bold;
 }
 .survey-sub { font-size: 15px; 
   color: var(--muted); 
@@ -128,9 +133,9 @@ nav {
 }
 
 .q-text {
-  font-family: var(--font-display); 
-  font-size: 20px; 
-  font-weight: 600;
+  font-family: var(--font-body); 
+  font-size: 18px; 
+  font-weight: 400;
   color: var(--navy); 
   line-height: 1.4; 
   margin-bottom: 6px;

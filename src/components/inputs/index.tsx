@@ -118,11 +118,6 @@ export function MultiInput({
           </button>
         ))}
       </div>
-      <div
-        style={{ fontSize: "11px", color: "var(--muted)", marginTop: "10px" }}
-      >
-        Select one or more, then continue
-      </div>
     </div>
   );
 }
@@ -156,11 +151,6 @@ export function SingleInput({
             {opt}
           </button>
         ))}
-      </div>
-      <div
-        style={{ fontSize: "11px", color: "var(--muted)", marginTop: "10px" }}
-      >
-        Select one option, then continue
       </div>
     </div>
   );
