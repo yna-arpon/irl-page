@@ -248,7 +248,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       {/* ── Contact box — always shown on page 2 ── */}
       {pageIndex === 2 && (
         <div className="contact-box">
-          <h3>Would you like to enter our $50 Amazon Card Giveaway?</h3>
+          <h3>Would you like to enter our $15 coffee card giveaway?</h3>
           <sub>Enter your name and email below</sub>
           <div className="contact-fields">
             <input
