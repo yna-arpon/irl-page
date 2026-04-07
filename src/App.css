@@ -14,6 +14,7 @@
   --navy2:   #163F57;
   --powder:  #C8DCE8;
   --powder2: #A8C8DA;
+  --powder3:  #c8dce871;
   --muted:   #6B7A85;
   --text:    #163F57;
   --white:   #FFFFFF;
@@ -333,6 +334,7 @@ nav {
   padding: 18px 48px;
   cursor: pointer;
   transition: all var(--transition);
+  border-radius: 8px;
 }
 .submit-btn:hover:not(:disabled) { 
   background: var(--navy2);
@@ -427,12 +429,17 @@ nav {
 
 .back-btn {
   background: transparent;
-  border: 1px solid var(--navy, #1a2744);
+  border: none;
   color: var(--navy, #1a2744);
   padding: 12px 24px;
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
+  transition: all var(--transition);
+}
+
+.back-btn:hover {
+  background: var(--powder3);
 }
 
 .next-btn {
@@ -442,11 +449,12 @@ nav {
   padding: 12px 28px;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
 }
 
-.next-btn:disabled { opacity: 0.4; 
+.next-btn:disabled { 
+  opacity: 0.4; 
   cursor: not-allowed; 
 }
 

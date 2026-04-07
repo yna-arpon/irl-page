@@ -319,7 +319,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       <div className="nav-row">
         {pageIndex > 0 && (
           <button className="back-btn" onClick={handleBack}>
-            ← Back
+            Back
           </button>
         )}
 
