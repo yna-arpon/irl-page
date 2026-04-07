@@ -11,18 +11,24 @@ interface SurveyFormProps {
 
 export function SurveyForm({ onComplete }: SurveyFormProps) {
   const [answers, setAnswers] = useState<Answers>({});
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(0); // 0, 1, 2
 
-  // Contact opt-in state (shown on last page)
+  // Contact opt-in state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [wantsContact, setWantsContact] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const totalPages = SECTIONS.length;
-  const section = SECTIONS[pageIndex];
-  const isLastPage = pageIndex === totalPages - 1;
+  // Score is computed once when leaving page 1, then used to decide page 2 route
+  const [score, setScore] = useState<number | null>(null);
+  const isHighScore = score !== null && score > 15;
+
+  // Always 3 pages total. Page 2 content depends on score.
+  const TOTAL_DOTS = 3;
+
+  // The two core sections (demographics = 0, impact = 1)
+  const coreSection = SECTIONS[pageIndex] ?? SECTIONS[1];
 
   const handleChange = useCallback(
     (qId: string, val: number | string | number[]) => {
@@ -48,7 +54,9 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     return parentVal === q.conditional.value;
   };
 
-  const visibleQs = section.questions.filter(isVisible);
+  // Page completion check — only applies to pages 0 and 1
+  const currentQuestions = pageIndex < 2 ? coreSection.questions : [];
+  const visibleQs = currentQuestions.filter(isVisible);
   const requiredQs = visibleQs.filter((q) => q.type !== "text");
   const pageComplete = requiredQs.every((q) => {
     if (q.type === "multi")
@@ -59,6 +67,11 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
   });
 
   const handleNext = () => {
+    if (pageIndex === 1) {
+      // Compute score before advancing to page 2
+      const computed = calculateTotalScore(answers);
+      setScore(computed);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
     setPageIndex((i) => i + 1);
   };
@@ -68,30 +81,14 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     setPageIndex((i) => i - 1);
   };
 
-  const [isHighScorer, setIsHighScorer] = useState(false);
-  const [showingBonus, setShowingBonus] = useState(false);
-  const [finalScore, setFinalScore] = useState<number | null>(null);
-
   const handleSubmit = async () => {
-    const score = calculateTotalScore(answers);
-    setFinalScore(score);
-
-    if (!showingBonus) {
-      if (score > 15) setIsHighScorer(true);
-      setShowingBonus(true);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    // VALIDATION: Only check email if they want to be contacted
     if (wantsContact && (!email || !email.includes("@"))) {
       setEmailError("Please enter a valid email so we can reach you.");
       return;
     }
-
+    setEmailError("");
     setLoading(true);
 
-    // Prep data for Airtable
     const allQuestions = [
       ...SECTIONS.flatMap((s) => s.questions),
       ...BONUS_SECTION[0].questions,
@@ -115,168 +112,137 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
     });
 
     setLoading(false);
-
-    if (success) {
-      onComplete(score);
-    } else {
+    if (success) onComplete(score ?? 0);
+    else
       alert(
         "Something went wrong submitting your responses. Please try again."
       );
-    }
   };
 
-  // Global question numbering across pages
+  // Global question offset for numbering
   let globalQuestionOffset = 0;
-  for (let i = 0; i < pageIndex; i++) {
+  for (let i = 0; i < Math.min(pageIndex, 2); i++) {
     globalQuestionOffset += SECTIONS[i].questions.filter(
       (q) => !q.conditional
     ).length;
   }
+  let nonConditionalCount = 0;
 
-  const bonus = BONUS_SECTION[0];
-  const currentQuestions = showingBonus
-    ? finalScore !== null && finalScore > 15
-      ? bonus.questions
-      : []
-    : section.questions;
-
-  // const isHigh = finalScore !== null && finalScore > 25;
-  // const isMed = finalScore !== null && finalScore > 15 && finalScore <= 25;
-  // const scoreColor = isHigh ? "#C0392B" : isMed ? "#D4AC0D" : "#2E7D5E";
-  // const label = isHigh ? "HIGH" : isMed ? "MODERATE" : "LOW";
+  const sectionTitle =
+    pageIndex === 0
+      ? SECTIONS[0].title
+      : pageIndex === 1
+      ? SECTIONS[1].title
+      : isHighScore
+      ? BONUS_SECTION[0].title
+      : "Almost done";
 
   return (
     <div>
-      {/* Step indicator */}
+      {/* Step indicator — always 3 dots */}
       <div className="step-indicator">
-        {[...SECTIONS, ...(isHighScorer ? [BONUS_SECTION[0]] : [])].map(
-          (_, i) => {
-            // Logic for the dots:
-            // 1. A dot is "done" if we've passed that pageIndex AND we aren't in bonus mode
-            // 2. A dot is "active" if it's the current pageIndex OR if it's the bonus dot and we are showing bonus
-            const isBonusDot = i === SECTIONS.length;
-            const isActive = showingBonus ? isBonusDot : i === pageIndex;
-            const isDone = showingBonus ? i < SECTIONS.length : i < pageIndex;
-
-            return (
-              <div
-                key={i}
-                className={`step-dot ${
-                  isDone ? "done" : isActive ? "active" : ""
-                }`}
-              />
-            );
-          }
-        )}
-        {/* {SECTIONS.map((_, i) => (
-        <div
-          key={i}
-          className={`step-dot ${
-            i < pageIndex ? "done" : i === pageIndex ? "active" : ""
-          }`}
-        />
-      ))} */}
+        {Array.from({ length: TOTAL_DOTS }).map((_, i) => (
+          <div
+            key={i}
+            className={`step-dot ${
+              i < pageIndex ? "done" : i === pageIndex ? "active" : ""
+            }`}
+          />
+        ))}
       </div>
       <div className="step-label">
-        {showingBonus
-          ? `Bonus Section`
-          : `Section ${pageIndex + 1} of ${totalPages}`}{" "}
-        —{" "}
-        <strong>{showingBonus ? BONUS_SECTION[0].title : section.title}</strong>
+        Section {pageIndex + 1} of {TOTAL_DOTS} —{" "}
+        <strong>{sectionTitle}</strong>
       </div>
 
-      {/* Score display */}
-      {showingBonus && finalScore !== null && (
-        <div
-          className="score-summary-card"
-          style={{
-            textAlign: "center",
-            padding: "40px 20px",
-            background: "var(--white)",
-            border: "1px solid rgba(27,78,107,0.1)",
-            marginBottom: "32px",
-            animation: "fadeUp 0.5s ease",
-          }}
-        >
+      {/* ── Page 0 & 1: core survey questions ── */}
+      {pageIndex < 2 &&
+        coreSection.questions.map((q) => {
+          if (!q.conditional) nonConditionalCount++;
+          const displayIndex = globalQuestionOffset + nonConditionalCount;
+          return (
+            <QuestionCard
+              key={q.id}
+              q={q}
+              answers={answers}
+              onChange={handleChange}
+              index={displayIndex}
+            />
+          );
+        })}
+
+      {/* ── Page 2 (high score): score card + bonus questions + contact ── */}
+      {pageIndex === 2 && isHighScore && (
+        <>
+          {/* Score card */}
           <div
+            className="score-summary-card"
             style={{
-              fontSize: "11px",
-              letterSpacing: "0.15em",
-              color: "var(--muted)",
-              textTransform: "uppercase",
+              textAlign: "center",
+              padding: "40px 20px",
+              background: "var(--white)",
+              border: "1px solid rgba(27,78,107,0.1)",
+              marginBottom: "32px",
+              animation: "fadeUp 0.5s ease",
             }}
           >
-            Your Dependency Score
+            <div
+              style={{
+                fontSize: "11px",
+                letterSpacing: "0.15em",
+                color: "var(--muted)",
+                textTransform: "uppercase",
+              }}
+            >
+              Your Dependency Score
+            </div>
+            <div
+              style={{
+                fontSize: "72px",
+                fontFamily: "var(--font-display)",
+                fontWeight: "bold",
+                color:
+                  score > 25 ? "#C0392B" : score > 15 ? "#D4AC0D" : "#2E7D5E",
+                margin: "10px 0",
+              }}
+            >
+              {score}
+            </div>
+            <div
+              style={{
+                display: "inline-block",
+                padding: "6px 16px",
+                background:
+                  score > 25 ? "#C0392B" : score > 15 ? "#D4AC0D" : "#2E7D5E",
+                color: "white",
+                fontSize: "10px",
+                fontWeight: "bold",
+                letterSpacing: "0.1em",
+                borderRadius: "4px",
+              }}
+            >
+              {score > 25 ? "HIGH" : "MODERATE"} ADDICTION
+            </div>
           </div>
-          <div
-            style={{
-              fontSize: "72px",
-              fontFamily: "var(--font-display)",
-              fontWeight: "bold",
-              color:
-                finalScore > 15
-                  ? "#C0392B"
-                  : finalScore > 8
-                  ? "#D4AC0D"
-                  : "#2E7D5E",
-              margin: "10px 0",
-            }}
-          >
-            {finalScore}
-          </div>
-          <div
-            style={{
-              display: "inline-block",
-              padding: "6px 16px",
-              background:
-                finalScore > 15
-                  ? "#C0392B"
-                  : finalScore > 8
-                  ? "#D4AC0D"
-                  : "#2E7D5E",
-              color: "white",
-              fontSize: "10px",
-              fontWeight: "bold",
-              letterSpacing: "0.1em",
-              borderRadius: "4px",
-            }}
-          >
-            {finalScore > 25 ? "HIGH" : finalScore > 15 ? "MODERATE" : "LOW"}{" "}
-            ADDICTION
-          </div>
-        </div>
+
+          {/* Bonus questions */}
+          {BONUS_SECTION[0].questions.map((q, idx) => (
+            <QuestionCard
+              key={q.id}
+              q={q}
+              answers={answers}
+              onChange={handleChange}
+              index={idx + 1}
+            />
+          ))}
+        </>
       )}
 
-      {/* Questions (Regular or Bonus) */}
-      {currentQuestions.map((q, idx) => (
-        <QuestionCard
-          key={q.id}
-          q={q}
-          answers={answers}
-          onChange={handleChange}
-          index={idx + 1} // Simplified index for bonus
-        />
-      ))}
-      {/* {section.questions.map((q) => {
-        if (!q.conditional) nonConditionalCount++;
-        const displayIndex = globalQuestionOffset + nonConditionalCount;
-        return (
-          <QuestionCard
-            key={q.id}
-            q={q}
-            answers={answers}
-            onChange={handleChange}
-            index={displayIndex}
-          />
-        );
-      })} */}
-
-      {/* Contact opt-in — only on last page */}
-      {(isLastPage || showingBonus) && (
+      {/* ── Contact box — always shown on page 2 ── */}
+      {pageIndex === 2 && (
         <div className="contact-box">
           <h3>Would you like to enter our $50 Amazon Card Giveaway?</h3>
           <sub>Enter your name and email below</sub>
-
           <div className="contact-fields">
             <input
               className="lead-input"
@@ -296,7 +262,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
             />
             {emailError && <p className="form-error">{emailError}</p>}
           </div>
-
           <label className="contact-checkbox-row">
             <input
               type="checkbox"
@@ -324,8 +289,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           </button>
         )}
 
-        {/* {!isLastPage ? ( */}
-        {!isLastPage && !showingBonus ? (
+        {pageIndex < 2 ? (
           <button
             className="next-btn"
             disabled={!pageComplete}
@@ -337,7 +301,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           <button
             className="submit-btn"
             disabled={loading}
-            // disabled={!pageComplete || loading}
             onClick={handleSubmit}
           >
             {loading ? "Submitting..." : "Submit →"}
