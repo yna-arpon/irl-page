@@ -343,12 +343,6 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           </button>
         )}
       </div>
-
-      {!pageComplete && (
-        <p className="submit-hint">
-          Answer all questions on this page to continue
-        </p>
-      )}
     </div>
   );
 }
