@@ -26,8 +26,8 @@ export const SECTIONS: Section[] = [
         options: [
           'Student',
           'Employed',
-          'Funemployed',
           'Retired',
+          'None of the above'
         ],
         isDemographic: true,
       },
@@ -77,7 +77,7 @@ export const SECTIONS: Section[] = [
         type: 'multi',
         options: [
           'Social media',
-          'Connection (texting, calls, video chats)',
+          'Connection (e.g., texting, calls, video chats)',
           'Education',
           'Games',
           'Entertainment',
@@ -131,12 +131,13 @@ export const SECTIONS: Section[] = [
         sub: 'Select all that apply.',
         type: 'multi',
         options: [
+          'Anxiety',
           'Boredom',
-          'Stress or anxiety',
           'Procrastination',
+          'Entertainment',
           'Loneliness',
+          'Work',
           'Habit',
-          'Work/Notifications',
           'Other',
         ],
       },
@@ -150,57 +151,57 @@ export const SECTIONS: Section[] = [
       },
       {
         id: 'q9',
-        text: 'Rank the following statement:',
-        sub: 'I feel like my phone usage harms my ability to focus',
+        text: 'I feel like my phone usage harms my ability to focus',
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q10',
-        text: 'Rank the following statement:',
-        sub: 'I feel like my phone usage harms my work or school performance',
+        text: 'I feel like my phone usage harms my performance at work or school',
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q11',
-        text: 'Rank the following statement:',
-        sub: 'I feel like my phone usage harms my sleep',
+        text: 'I feel like my phone usage harms my sleep',
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q12',
-        text: 'Rank the following statement:',
-        sub: 'I feel like my phone usage harms my personal relationships',
+        text: 'I feel like my phone usage harms my personal relationships',
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q13',
-        text: 'Rank the following statement:',
-        sub: 'I feel like my phone usage harms my mental health',
+        text: 'I feel like my phone usage harms my mental health',
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q14',
-        text: 'Rank the following statement:',
-        sub: 'I feel like my phone usage harms my physical health',
+        text: 'I feel like my phone usage harms my physical health',
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q15',
         text: 'I feel anxious when I don\'t have my phone',
-        sub: null,
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
       {
         id: 'q16',
         text: 'I am motivated to reduce my screen time',
-        sub: null,
+        sub: 'Rank the statement above',
         type: 'scale',
         low: 'Strongly disagree', high: 'Strongly agree',
       },
@@ -219,7 +220,7 @@ export const SECTIONS: Section[] = [
       },
       {
         id: 'q17a',
-        text: 'What do you use to track your screen time?',
+        text: 'What do you use to assist with your screen time?',
         sub: 'If you selected "Other" above, please share what tools you use.',
         type: 'text',
         placeholder: 'e.g., Placing my phone in another room, etc.',
@@ -232,7 +233,7 @@ export const SECTIONS: Section[] = [
 export const BONUS_SECTION: Section[] = [
   {
     title: 'Deep Dive',
-    subtitle: 'Since you scored high on the previous questions, we\'d love to understand more about your experience.',
+    subtitle: '',
     questions: [
       {
         id: 'b1',
@@ -240,23 +241,45 @@ export const BONUS_SECTION: Section[] = [
         sub: null,
         type: 'multi',
         options: [
-          'They\'re easy to use',
-          'They provide good insights',
-          'They help me stay accountable',
+          "It's easy to use",
+          "It's effective",
+          "It's tailored to my preferences and goals",
+          "I can share progress with friends or family to keep me accountable",
+          "It shows me meaningful data about my phone usage",
+          "There are good rewards or perks",
           'Other'
         ]
       },
       {
+        id: 'b1a',
+        text: 'What else do you like about your current tools?',
+        sub: 'If you selected "Other" above, please share what other features you like about your current tools',
+        type: 'text',
+        placeholder: '',
+        conditional: { parent: 'b1', value: 6 },
+      },
+      {
         id: 'b2',
-        text: 'What don\'t you like about your current tools?',
+        text: 'What do you dislike about your current tools?',
         sub: null,
         type: 'multi',
         options: [
-          'They\'re hard to use',
-          'They don\'t provide good insights',
-          'They don\'t help me stay accountable',
+          "It's too complex",
+          "It's too easy to override",
+          "There's no accountability",
+          "It's not suitable for my life or job",
+          "It's too complex",
+          "I don't use anything",
           'Other'
         ]
+      },
+      {
+        id: 'b2a',
+        text: 'What else do you dislike about your current tools?',
+        sub: 'If you selected "Other" above, please share what else you do not like about your current tools',
+        type: 'text',
+        placeholder: '',
+        conditional: { parent: 'b1', value: 6 },
       },
       {
         id: 'b3',
@@ -266,15 +289,23 @@ export const BONUS_SECTION: Section[] = [
         options: [
           'App blockers',
           'Screen time limits',
-          'Shared progress or accountability with friends'
+          'Shared progress or accountability with friends',
+          'Progress (streaks)', 
+          'Analytics/data',
+          'Rewards & Perks',
+          'Redirecting you to more productive tasks',
+          'Having to answer questions about why I want to use my phone (?)',
+          'Other'
         ]
       },
       {
-        id: 'b4',
-        text: 'If you could wave a magic wand and change anything about your phone usage, what would it be?',
-        sub: 'Be as specific as you like.',
+        id: 'b3a',
+        text: 'What other tools do you feel would help you cut down on screen time?',
+        sub: 'If you selected "Other" above, please share what else you feel would help you',
         type: 'text',
-      }
+        placeholder: '',
+        conditional: { parent: 'b3', value: 8 },
+      },
     ]
   }
 ]
