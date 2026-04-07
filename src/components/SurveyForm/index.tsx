@@ -68,11 +68,18 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
 
   const handleNext = () => {
     if (pageIndex === 1) {
-      // Compute score before advancing to page 2
       const computed = calculateTotalScore(answers);
       setScore(computed);
+      setTimeout(() => {
+        document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+        document.body.scrollTo({ top: 0, behavior: "smooth" });
+      }, 50);
+    } else {
+      setTimeout(() => {
+        document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+        document.body.scrollTo({ top: 0, behavior: "smooth" });
+      }, 0);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
     setPageIndex((i) => i + 1);
   };
 
