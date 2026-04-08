@@ -18,7 +18,7 @@
   --muted:   #6B7A85;
   --text:    #163F57;
   --white:   #FFFFFF;
-  --font-display: 'Noto Serif Display", serif';
+  --font-display: 'Noto Serif Display', serif;
   --font-body:    'DM Sans', system-ui, sans-serif;
   --transition: 0.25s ease;
 }
@@ -31,10 +31,6 @@ body {
   font-family: var(--font-body);
   background: var(--cream);
   color: var(--text);
-}
-
-h1 {
-  font-weight: 650px;
 }
 
 /* â”€â”€ NAV â”€â”€ */
@@ -105,7 +101,6 @@ nav {
   line-height: 1.1; 
   margin-bottom: 12px; 
   text-align: center;
-  font-weight: bold;
 }
 .survey-sub { font-size: 15px; 
   color: var(--muted); 
