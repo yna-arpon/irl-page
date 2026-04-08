@@ -34,7 +34,7 @@ export const SECTIONS: Section[] = [
       {
         id: 'q2a',
         text: 'What do you do for work?',
-        sub: 'If you selected "Employed" above, please share a bit about your job.',
+        sub: 'If you selected "Employed" above, please share a bit about your job (optional).',
         type: 'text',
         placeholder: 'e.g., Software engineering intern, Barista, Technician, etc.',
         conditional: { parent: 'q2', value: 1 },
@@ -89,7 +89,7 @@ export const SECTIONS: Section[] = [
       {
         id: 'q5a',
         text: 'What other activities do you spend time on?',
-        sub: 'If you selected "Other" above, please share what else you use your phone for.',
+        sub: 'If you selected "Other" above, please share what else you use your phone for (optional).',
         type: 'text',
         placeholder: 'e.g., Shopping, Work, News, etc.',
         conditional: { parent: 'q5', value: 7 },
@@ -114,7 +114,7 @@ export const SECTIONS: Section[] = [
       {
         id: 'q6a',
         text: 'What other applications do you love using?',
-        sub: 'If you selected "Other" above, please share what applications you use your phone for.',
+        sub: 'If you selected "Other" above, please share what applications you use your phone for (optional).',
         type: 'text',
         placeholder: 'e.g., Pinterest, Outlook, iMessage, etc.',
         conditional: { parent: 'q6', value: 8 },
@@ -144,7 +144,7 @@ export const SECTIONS: Section[] = [
       {
         id: 'q8a',
         text: 'What triggers you to reach for your phone?',
-        sub: 'If you selected "Other" above, please share what typically triggers you to reach for your phone.',
+        sub: 'If you selected "Other" above, please share what typically triggers you to reach for your phone (optional).',
         type: 'text',
         placeholder: 'e.g., Text messages, etc.',
         conditional: { parent: 'q8', value: 7},
@@ -215,16 +215,17 @@ export const SECTIONS: Section[] = [
           'Opal',
           'ScreenZen',
           'OneSec',
+          "I don't use anything",
           'Other',
         ]
       },
       {
         id: 'q17a',
         text: 'What do you use to assist with your screen time?',
-        sub: 'If you selected "Other" above, please share what tools you use.',
+        sub: 'If you selected "Other" above, please share what tools you use (optional).',
         type: 'text',
         placeholder: 'e.g., Placing my phone in another room, etc.',
-        conditional: { parent: 'q17', value: 4},
+        conditional: { parent: 'q17', value: 5},
       }
     ],
   },
@@ -247,16 +248,17 @@ export const BONUS_SECTION: Section[] = [
           "I can share progress with friends or family to keep me accountable",
           "It shows me meaningful data about my phone usage",
           "There are good rewards or perks",
+          "N/A - I don't use anything",
           'Other'
         ]
       },
       {
         id: 'b1a',
         text: 'What else do you like about your current tools?',
-        sub: 'If you selected "Other" above, please share what other features you like about your current tools',
+        sub: 'If you selected "Other" above, please share what other features you like about your current tools (optional).',
         type: 'text',
         placeholder: '',
-        conditional: { parent: 'b1', value: 6 },
+        conditional: { parent: 'b1', value: 7 },
       },
       {
         id: 'b2',
@@ -269,14 +271,14 @@ export const BONUS_SECTION: Section[] = [
           "There's no accountability",
           "It's not suitable for my life or job",
           "It's too complex",
-          "I don't use anything",
+          "N/A - I don't use anything",
           'Other'
         ]
       },
       {
         id: 'b2a',
         text: 'What else do you dislike about your current tools?',
-        sub: 'If you selected "Other" above, please share what else you do not like about your current tools',
+        sub: 'If you selected "Other" above, please share what else you do not like about your current tools (optional).',
         type: 'text',
         placeholder: '',
         conditional: { parent: 'b2', value: 6 },
@@ -300,7 +302,7 @@ export const BONUS_SECTION: Section[] = [
       {
         id: 'b3a',
         text: 'What other tools do you feel would help you cut down on screen time?',
-        sub: 'If you selected "Other" above, please share what else you feel would help you',
+        sub: 'If you selected "Other" above, please share what else you feel would help you (optional).',
         type: 'text',
         placeholder: '',
         conditional: { parent: 'b3', value: 7 },
