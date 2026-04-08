@@ -22,7 +22,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
 
   // Score is computed once when leaving page 1, then used to decide page 2 route
   const [score, setScore] = useState<number | null>(null);
-  const isHighScore = score !== null && score > 34;
+  const isHighScore = score !== null && score > 40;
 
   // Always 3 pages total. Page 2 content depends on score.
   const TOTAL_DOTS = 3;
