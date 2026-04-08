@@ -135,7 +135,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
 
   const bonus = BONUS_SECTION[0];
   const currentQuestions = showingBonus
-    ? finalScore !== null && finalScore > 15
+    ? finalScore !== null && finalScore > 34
       ? bonus.questions
       : []
     : section.questions;
