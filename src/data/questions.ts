@@ -147,7 +147,7 @@ export const SECTIONS: Section[] = [
         sub: 'If you selected "Other" above, please share what typically triggers you to reach for your phone.',
         type: 'text',
         placeholder: 'e.g., Text messages, etc.',
-        conditional: { parent: 'q8', value: 6},
+        conditional: { parent: 'q8', value: 7},
       },
       {
         id: 'q9',
@@ -279,7 +279,7 @@ export const BONUS_SECTION: Section[] = [
         sub: 'If you selected "Other" above, please share what else you do not like about your current tools',
         type: 'text',
         placeholder: '',
-        conditional: { parent: 'b1', value: 6 },
+        conditional: { parent: 'b2', value: 6 },
       },
       {
         id: 'b3',
@@ -293,8 +293,7 @@ export const BONUS_SECTION: Section[] = [
           'Progress (streaks)', 
           'Analytics/data',
           'Rewards & Perks',
-          'Redirecting you to more productive tasks',
-          'Having to answer questions about why I want to use my phone (?)',
+          'Redirecting you to tasks away from your phone',
           'Other'
         ]
       },
@@ -304,7 +303,7 @@ export const BONUS_SECTION: Section[] = [
         sub: 'If you selected "Other" above, please share what else you feel would help you',
         type: 'text',
         placeholder: '',
-        conditional: { parent: 'b3', value: 8 },
+        conditional: { parent: 'b3', value: 7 },
       },
     ]
   }

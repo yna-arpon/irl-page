@@ -13,7 +13,7 @@ export default function App() {
           <>
             <h1 className="survey-title">Are you even present?</h1>
             <p className="survey-sub">
-              A short survey on your relationship with technology.
+              Help us understand how your phone affects your life.
               <br />
               Answer honestly — there are no wrong answers.
             </p>
@@ -26,14 +26,7 @@ export default function App() {
           </>
         )}
 
-        {phase === "done" && (
-          <ThankYouScreen
-            onReset={() => {
-              setPhase("survey");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          />
-        )}
+        {phase === "done" && <ThankYouScreen />}
       </div>
     </main>
   );
