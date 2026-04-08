@@ -248,8 +248,11 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       {/* ── Contact box — always shown on page 2 ── */}
       {pageIndex === 2 && (
         <div className="contact-box">
-          <h3>Would you like to enter our $15 coffee card giveaway?</h3>
-          <sub>Enter your name and email below</sub>
+          <h3>Enter to win a $15 coffee card!</h3>
+          <sub>
+            Enter your name and email to join — we'll only be in touch if you
+            win or opt in below.
+          </sub>
           <div className="contact-fields">
             <input
               className="lead-input"
@@ -280,9 +283,9 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
               }}
             />
             <span className="contact-checkbox-label">
-              <strong>I'm open to being contacted.</strong> I'd like to help
-              tackle phone addiction — whether that's a quick follow-up
-              conversation, early access, or sharing more about my experience.
+              <strong>Optional:</strong> I'm open to follow-ups about tackling
+              phone addiction (early access, quick chats, sharing my
+              experience).
             </span>
           </label>
         </div>
