@@ -296,6 +296,7 @@ export const BONUS_SECTION: Section[] = [
           'Analytics/data',
           'Rewards & Perks',
           'Redirecting you to tasks away from your phone',
+          "N/A - I'm not interested in using any tools",
           'Other'
         ]
       },
