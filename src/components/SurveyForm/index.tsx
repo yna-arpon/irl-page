@@ -248,7 +248,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       {/* ── Contact box — always shown on page 2 ── */}
       {pageIndex === 2 && (
         <div className="contact-box">
-          <h3>Enter to win a $15 coffee card!</h3>
+          <h3>Enter for a chance to win one of four $15 coffee gift cards!</h3>
           <sub>
             Enter your name and email to join — we'll only be in touch if you
             win or opt in below.
