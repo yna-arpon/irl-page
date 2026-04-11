@@ -207,7 +207,7 @@ export const SECTIONS: Section[] = [
       },
       {
         id: 'q17',
-        text: 'Do you use any tools to assist with your screent time?',
+        text: 'Do you use any tools to assist with your screen time?',
         sub: null,
         type: 'multi',
         options: [
