@@ -234,7 +234,7 @@ export const SECTIONS: Section[] = [
 export const BONUS_SECTION: Section[] = [
   {
     title: 'Deep Dive',
-    subtitle: '',
+    subtitle: 'We\'d love to hear more if you\'d like to share - these questions are optional, but would really help us out!',
     questions: [
       {
         id: 'b1',

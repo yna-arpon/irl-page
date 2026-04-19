@@ -142,7 +142,7 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
       ? SECTIONS[1].title
       : isHighScore
       ? BONUS_SECTION[0].title
-      : "Almost done";
+      : "Bonus questions (optional, but your answers would really help us out!)";
 
   return (
     <div>
@@ -178,60 +178,9 @@ export function SurveyForm({ onComplete }: SurveyFormProps) {
           );
         })}
 
-      {/* ── Page 2 (high score): score card + bonus questions + contact ── */}
-      {pageIndex === 2 && isHighScore && (
+      {/* ── Page 2: Bonus questions ── */}
+      {pageIndex === 2 && (
         <>
-          {/* Score card */}
-          <div
-            className="score-summary-card"
-            style={{
-              textAlign: "center",
-              padding: "40px 20px",
-              background: "var(--white)",
-              border: "1px solid rgba(27,78,107,0.1)",
-              marginBottom: "32px",
-              animation: "fadeUp 0.5s ease",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "11px",
-                letterSpacing: "0.15em",
-                color: "var(--muted)",
-                textTransform: "uppercase",
-              }}
-            >
-              Your Dependency Score
-            </div>
-            <div
-              style={{
-                fontSize: "72px",
-                fontFamily: "var(--font-display)",
-                fontWeight: "bold",
-                color:
-                  score > 25 ? "#C0392B" : score > 15 ? "#D4AC0D" : "#2E7D5E",
-                margin: "10px 0",
-              }}
-            >
-              {score}
-            </div>
-            <div
-              style={{
-                display: "inline-block",
-                padding: "6px 16px",
-                background:
-                  score > 25 ? "#C0392B" : score > 15 ? "#D4AC0D" : "#2E7D5E",
-                color: "white",
-                fontSize: "10px",
-                fontWeight: "bold",
-                letterSpacing: "0.1em",
-                borderRadius: "4px",
-              }}
-            >
-              {score > 25 ? "HIGH" : "MODERATE"} ADDICTION
-            </div>
-          </div>
-
           {/* Bonus questions */}
           {BONUS_SECTION[0].questions.map((q, idx) => (
             <QuestionCard
