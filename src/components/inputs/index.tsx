@@ -155,3 +155,65 @@ export function SingleInput({
     </div>
   );
 }
+
+// ── SliderInput ───────────────────────────────────────────────
+interface SliderInputProps {
+  qId: string;
+  value: number | undefined;
+  low: string;
+  high: string;
+  onChange: (qId: string, val: number) => void;
+}
+
+export function SliderInput({
+  qId,
+  value,
+  low,
+  high,
+  onChange,
+}: SliderInputProps) {
+  const pct = value !== undefined ? ((value - 1) / 4) * 100 : 0;
+  const hasValue = value !== undefined;
+
+  return (
+    <div className="slider-wrap">
+      <div className="slider-value-row">
+        <span className="slider-value">{hasValue ? value : "–"}</span>
+        <span className="slider-value-label">
+          {hasValue
+            ? value <= 2
+              ? low
+              : value >= 4
+              ? high
+              : ""
+            : "Drag to answer"}
+        </span>
+      </div>
+      <div className="slider-track-wrap">
+        <div
+          className="slider-fill"
+          style={{ width: hasValue ? `${pct}%` : "0%" }}
+        />
+        <input
+          type="range"
+          className="slider-input"
+          min={1}
+          max={5}
+          step={1}
+          value={value ?? 1}
+          onChange={(e) => onChange(qId, Number(e.target.value))}
+          onMouseDown={() => {
+            if (!hasValue) onChange(qId, 3);
+          }}
+          onTouchStart={() => {
+            if (!hasValue) onChange(qId, 3);
+          }}
+        />
+      </div>
+      <div className="scale-labels">
+        <span>{low}</span>
+        <span>{high}</span>
+      </div>
+    </div>
+  );
+}
