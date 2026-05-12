@@ -620,7 +620,7 @@ nav {
 
 .slider-value-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   margin-bottom: 12px;
 }
