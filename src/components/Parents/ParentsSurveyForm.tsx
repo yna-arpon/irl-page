@@ -146,17 +146,6 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
         <strong>{sectionTitles[pageIndex]}</strong>
       </div>
 
-      {/* Back button — top */}
-      {pageIndex > 0 && (
-        <button
-          className="back-btn"
-          onClick={handleBack}
-          style={{ marginBottom: "16px" }}
-        >
-          Back
-        </button>
-      )}
-
       {/* ── PAGE 0: how many kids ── */}
       {pageIndex === 0 && (
         <div className="q-card">
