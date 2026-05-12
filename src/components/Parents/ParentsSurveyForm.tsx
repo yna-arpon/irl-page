@@ -7,7 +7,7 @@ import {
 } from "../../data/parentQuestions";
 import { MultiChildQuestion } from "./ChildAccordion";
 import { MultiInput, TextInput, SingleInput } from "../inputs";
-import { postToAirtable } from "../../utils/airtable";
+import { postToAirtable, AIRTABLE_PARENTS_BASE_ID } from "../../utils/airtable";
 
 const TOTAL_PAGES = 3;
 
@@ -19,6 +19,12 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
   const [answers, setAnswers] = useState<Answers>({});
   const [pageIndex, setPageIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // Contact opt-in state
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [wantsContact, setWantsContact] = useState(false);
+  const [emailError, setEmailError] = useState("");
 
   const handleChange = useCallback(
     (qId: string, val: number | string | number[]) => {
@@ -108,17 +114,42 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    const summary = Object.entries(answers)
-      .map(
-        ([k, v]) => `${k}: ${Array.isArray(v) ? (v as number[]).join(",") : v}`
-      )
-      .join(" | ");
-
-    await postToAirtable({ Survey: "parents", Answers: summary });
-    setLoading(false);
-    onComplete();
-  };
+      if (wantsContact && (!email || !email.includes("@"))) {
+        setEmailError("Please enter a valid email so we can reach you.");
+        return;
+      }
+      setEmailError("");
+      setLoading(true);
+  
+      const allQuestions = [
+        ...PER_CHILD_QUESTIONS,
+        ...GENERAL_QUESTIONS
+      ];
+      const answersSummary = allQuestions
+        .filter((q) => answers[q.id] !== undefined)
+        .map((q) => {
+          let val = answers[q.id];
+          if (Array.isArray(val))
+            val = (val as number[]).map((i) => q.options![i]).join(", ");
+          return `${q.id}: ${val}`;
+        })
+        .join(" | ");
+  
+      const success = await postToAirtable({
+        Name: name || "(not provided)",
+        Email: wantsContact ? email : "(opted out)",
+        WantsContact: wantsContact,
+        Answers: answersSummary,
+      }, 
+      AIRTABLE_PARENTS_BASE_ID);
+  
+      setLoading(false);
+      if (success) onComplete();
+      else
+        alert(
+          "Something went wrong submitting your responses. Please try again."
+        );
+    };
 
   const sectionTitles = [
     "About your family",
@@ -225,6 +256,51 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
             );
           });
         })()}
+      
+      {/* ── Contact opt-in (page 2 only) ── */}
+      {pageIndex === 2 && (
+        <div className="contact-box">
+          <h3>Want to help us build this?</h3>
+          <sub>
+            Leave your details if you'd like to be involved — early access,
+            a quick chat, or sharing your experience. No spam, ever.
+          </sub>
+          <div className="contact-fields">
+            <input
+              className="lead-input"
+              type="text"
+              placeholder="Your name (optional)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+            />
+            <input
+              className="lead-input"
+              type="email"
+              placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+            {emailError && <p className="form-error">{emailError}</p>}
+          </div>
+          <label className="contact-checkbox-row">
+            <input
+              type="checkbox"
+              className="lead-checkbox"
+              checked={wantsContact}
+              onChange={(e) => {
+                setWantsContact(e.target.checked);
+                setEmailError("");
+              }}
+            />
+            <span className="contact-checkbox-label">
+              <strong>Optional:</strong> I'm open to follow-ups — early access,
+              a quick chat, or helping shape the product.
+            </span>
+          </label>
+        </div>
+      )}
 
       {/* Navigation */}
       <div className="nav-row">

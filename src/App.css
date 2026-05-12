@@ -464,7 +464,6 @@ nav {
   text-align: center;
   padding: 24px 0;
 }
-.thankyou-icon  { font-size: 48px; margin-bottom: 16px; }
 .thankyou-title { font-size: 26px; font-weight: 700; margin: 0 0 10px; }
 .thankyou-sub   { font-size: 15px; color: var(--muted, #888); max-width: 420px; margin: 0 auto 28px; line-height: 1.6; }
 
