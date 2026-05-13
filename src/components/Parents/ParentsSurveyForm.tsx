@@ -23,7 +23,7 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
   // Contact opt-in state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [wantsContact, setWantsContact] = useState(false);
+  // const [wantsContact, setWantsContact] = useState(false);
   const [emailError, setEmailError] = useState("");
 
   const handleChange = useCallback(
@@ -114,7 +114,11 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
   };
 
   const handleSubmit = async () => {
-      if (wantsContact && (!email || !email.includes("@"))) {
+      // if (wantsContact && (!email || !email.includes("@"))) {
+      //   setEmailError("Please enter a valid email so we can reach you.");
+      //   return;
+      // }
+      if (!email || !email.includes("@")) {
         setEmailError("Please enter a valid email so we can reach you.");
         return;
       }
@@ -137,8 +141,9 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
   
       const success = await postToAirtable({
         Name: name || "(not provided)",
-        Email: wantsContact ? email : "(opted out)",
-        WantsContact: wantsContact,
+        Email: email || "(not provided)",
+        // Email: wantsContact ? email : "(opted out)",
+        // WantsContact: wantsContact,
         Answers: answersSummary,
       }, 
       AIRTABLE_PARENTS_BASE_ID);
@@ -262,8 +267,8 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
         <div className="contact-box">
           <h3>Want to help us build this?</h3>
           <sub>
-            Leave your details if you'd like to be involved — early access,
-            a quick chat, or sharing your experience. No spam, ever.
+            Leave your details if you'd like to be involved — early access, feature testing,
+            a quick chat, or sharing your experience. We will never spam your email, ever.
           </sub>
           <div className="contact-fields">
             <input
@@ -284,7 +289,7 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
             />
             {emailError && <p className="form-error">{emailError}</p>}
           </div>
-          <label className="contact-checkbox-row">
+          {/* <label className="contact-checkbox-row">
             <input
               type="checkbox"
               className="lead-checkbox"
@@ -292,13 +297,12 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
               onChange={(e) => {
                 setWantsContact(e.target.checked);
                 setEmailError("");
-              }}
-            />
-            <span className="contact-checkbox-label">
-              <strong>Optional:</strong> I'm open to follow-ups — early access,
-              a quick chat, or helping shape the product.
-            </span>
-          </label>
+              }} */}
+            {/* /> */}
+            {/* <span className="contact-checkbox-label">
+              <strong>Optional:</strong> I'd love to be contacted about my experience
+            </span> */}
+          {/* </label> */}
         </div>
       )}
 

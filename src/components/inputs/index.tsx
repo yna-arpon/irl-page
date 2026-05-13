@@ -163,6 +163,7 @@ interface SliderInputProps {
   low: string;
   high: string;
   onChange: (qId: string, val: number) => void;
+  onCommit?: (val: number) => void
 }
 
 export function SliderInput({
@@ -171,6 +172,7 @@ export function SliderInput({
   low,
   high,
   onChange,
+  onCommit,
 }: SliderInputProps) {
   const pct = value !== undefined ? ((value - 1) / 4) * 100 : 0;
   const hasValue = value !== undefined;
@@ -208,6 +210,8 @@ export function SliderInput({
           onTouchStart={() => {
             if (!hasValue) onChange(qId, 3);
           }}
+          onMouseUp={() => onCommit?.(value ?? 1)}
+          onTouchEnd={() => onCommit?.(value ?? 1)}
         />
       </div>
       <div className="scale-labels">
