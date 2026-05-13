@@ -177,9 +177,9 @@ export const GENERAL_QUESTIONS: Question[] = [
   },
   {
     id: 'g6',
-    text: "Would you be interested in helping us solve this problem?",
+    text: "If you could wave a magic wand and change one thing about your child's phone usage, what would it be?",
     sub: null,
     type: 'text',
-    placeholder: 'Tell us how you\'d like to be involved — a quick chat, early access, feedback sessions...',
+    placeholder: 'e.g. Less time spent on games, more time outdoors...',
   },
 ]
