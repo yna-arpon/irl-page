@@ -125,19 +125,35 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
       setEmailError("");
       setLoading(true);
   
-      const allQuestions = [
-        ...PER_CHILD_QUESTIONS,
-        ...GENERAL_QUESTIONS
-      ];
-      const answersSummary = allQuestions
-        .filter((q) => answers[q.id] !== undefined)
-        .map((q) => {
-          let val = answers[q.id];
-          if (Array.isArray(val))
-            val = (val as number[]).map((i) => q.options![i]).join(", ");
-          return `${q.id}: ${val}`;
+      // const allQuestions = [
+      //   ...PER_CHILD_QUESTIONS,
+      //   ...GENERAL_QUESTIONS
+      // ];
+      // const answersSummary = allQuestions
+      //   .filter((q) => answers[q.id] !== undefined)
+      //   .map((q) => {
+      //     let val = answers[q.id];
+      //     if (Array.isArray(val))
+      //       val = (val as number[]).map((i) => q.options![i]).join(", ");
+      //     return `${q.id}: ${val}`;
+      //   })
+      //   .join(" | ");
+
+      // Build summary including all child-prefixed keys
+      const answersSummary = Object.entries(answers)
+        .map(([key, val]) => {
+          if (Array.isArray(val)) {
+            // Try to find the matching question to decode option labels
+            const baseId = key.replace(/_child\d+$/, '');
+            const q = [...PER_CHILD_QUESTIONS, ...GENERAL_QUESTIONS].find(q => q.id === baseId);
+            if (q?.options) {
+              return `${key}: ${(val as number[]).map(i => q.options![i]).join(', ')}`;
+            }
+            return `${key}: ${(val as number[]).join(', ')}`;
+          }
+          return `${key}: ${val}`;
         })
-        .join(" | ");
+        .join(' | ');
   
       const success = await postToAirtable({
         Name: name || "(not provided)",
