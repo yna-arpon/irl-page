@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SliderInput, TextInput, MultiInput, SingleInput } from "../inputs";
 import type { Question, Answers } from "../../types";
+import { PER_CHILD_QUESTIONS } from '../../data/parentQuestions'
 
 interface ChildAnswerAccordionProps {
   childIndex: number;
@@ -15,7 +16,7 @@ interface ChildAnswerAccordionProps {
 
 export function ChildAnswerAccordion({
   childIndex,
-  // childCount,
+  childCount,
   question,
   answers,
   onChange,
@@ -26,6 +27,7 @@ export function ChildAnswerAccordion({
   const isOpen = openIndex === childIndex;
   const pid = `${question.id}_child${childIndex}`;
   const val = answers[pid];
+  const numKids = childCount;
 
   const handleChange = (v: number | string | number[]) => {
     onChange(pid, v);
@@ -102,6 +104,28 @@ export function ChildAnswerAccordion({
               onChange={(_, v) => handleChange(v)}
             />
           )}
+
+          {PER_CHILD_QUESTIONS
+            .filter(followUp => 
+              followUp.conditional?.parent === question.id &&
+              Array.isArray(answers[pid]) &&
+              (answers[pid] as number[]).includes(followUp.conditional.value as number)
+            )
+            .map(followUp => {
+              const followUpPid = numKids === 1 ? followUp.id : `${followUp.id}_child${childIndex}`
+              return (
+                <div key={followUp.id} style={{ marginTop: '12px' }}>
+                  <div className="q-sub">↳ {followUp.text}</div>
+                  <TextInput
+                    qId={followUpPid}
+                    value={answers[followUpPid] as string | undefined}
+                    placeholder={followUp.placeholder}
+                    onChange={(_, v) => onChange(followUpPid, v)}
+                  />
+                </div>
+              )
+            })
+          }
         </div>
       )}
     </div>

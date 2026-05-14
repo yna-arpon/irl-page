@@ -59,7 +59,7 @@ export const PER_CHILD_QUESTIONS: Question[] = [
     sub: 'You selected "Other" above.',
     type: 'text',
     placeholder: 'e.g. Shopping, news, etc.',
-    conditional: { parent: 'p4', value: 9 },
+    conditional: { parent: 'p4', value: 8 },
   },
   {
     id: 'p5',

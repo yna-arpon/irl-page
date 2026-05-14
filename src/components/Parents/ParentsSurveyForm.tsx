@@ -215,12 +215,14 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
       {/* ── PAGE 1: per-child questions, accordion inside each card ── */}
       {pageIndex === 1 &&
         PER_CHILD_QUESTIONS.map((q) => {
-          // Check visibility: for multi-child, check child 0 as representative
-          // Conditional follow-ups are still shown if any child triggered them
-          const anyChildVisible = Array.from({ length: numKids }).some(
-            (_, ci) => isPerChildVisible(q, ci)
-          );
-          if (!anyChildVisible) return null;
+
+          // For multiple kids: skip conditionals, accordion handles them internally
+          if (q.conditional && numKids > 1) return null;
+
+          // For single kid: check visibility normally
+          if (q.conditional && numKids === 1) {
+            if (!isPerChildVisible(q, 0)) return null;
+          }
 
           if (!q.conditional) questionCounter++;
 
