@@ -153,6 +153,10 @@ nav {
   border-radius: 4px;
 }
 
+.hero-form-wrap {
+  max-width: 440px;
+}
+
 .hero-form-input {
   flex: 1;
   padding: 14px 18px;
@@ -204,11 +208,212 @@ nav {
 /* Phone Mockup */
 .hero-right {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
+  overflow: hidden;
 }
 
+.hero-image {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 12px;
+}
 
+/* ── MISSION ── */
+.mission {
+  background: var(--navy);
+  padding: 100px 80px;
+}
+
+.mission-inner {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 28px;
+  display: block;
+}
+
+.mission-heading {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: 32px;
+  letter-spacing: -0.01em;
+}
+
+.mission-heading em {
+  font-style: italic;
+  color: var(--powder);
+}
+
+.mission-body {
+  font-size: 17px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 16px;
+}
+
+/* ── GET INVOLVED ── */
+.involve {
+  padding: 100px 80px;
+  background: var(--cream);
+}
+
+.involve-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.involve-inner .section-label {
+  color: var(--muted);
+}
+
+.involve-heading {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.involve-heading em { font-style: italic; }
+
+.involve-sub {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 60px;
+}
+
+.involve-tiers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.tier {
+  background: var(--white);
+  border: 1px solid rgba(27,78,107,0.1);
+  border-radius: 16px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.tier:hover {
+  box-shadow: 0 12px 40px rgba(27,78,107,0.1);
+  transform: translateY(-3px);
+}
+
+.tier-num {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.tier-time {
+  font-size: 12px;
+  color: var(--navy);
+  font-weight: 500;
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+.tier-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.tier-body {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  flex: 1;
+  margin-bottom: 28px;
+}
+
+.tier-btn {
+  background: transparent;
+  border: 1.5px solid rgba(27,78,107,0.3);
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  text-align: left;
+  margin-bottom: 2%;
+}
+
+.tier-btn:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--navy);
+  padding: 36px 80px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--white);
+  margin-right: 8px;
+}
+
+.footer-made {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  flex: 1;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-link {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.25s ease;
+}
+
+.footer-link:hover { color: var(--white); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .mission { padding: 72px 24px; }
+  .involve { padding: 72px 24px; }
+  .involve-tiers { grid-template-columns: 1fr; gap: 16px; }
+  .footer { flex-direction: column; align-items: flex-start; padding: 36px 24px; gap: 12px; }
+}
 /* SURVEY SECTION */
 .survey-inner {
   max-width: 680px; 
