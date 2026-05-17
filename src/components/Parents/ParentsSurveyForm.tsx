@@ -118,7 +118,7 @@ export function ParentsSurveyForm({ onComplete }: ParentsSurveyFormProps) {
       //   setEmailError("Please enter a valid email so we can reach you.");
       //   return;
       // }
-      if (!email || !email.includes("@")) {
+      if ((name && !email) || (name && !email.includes("@"))) {
         setEmailError("Please enter a valid email so we can reach you.");
         return;
       }
