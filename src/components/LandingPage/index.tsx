@@ -146,8 +146,8 @@ export function LandingPage() {
       <span className="footer-logo">irl</span>
       {/* <span className="footer-made">made carefully · Canada </span> */}
       <div className="footer-links">
-        <a href="#" className="footer-link">privacy</a>
-        <a href="#" className="footer-link">contact</a>
+        {/* <a href="#" className="footer-link">privacy</a>
+        <a href="#" className="footer-link">contact</a> */}
       </div>
     </footer>
     </div>
