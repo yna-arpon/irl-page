@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AIRTABLE_WAITLIST_BASE_ID, postToAirtable } from "../../utils/airtable";
 import { Link } from "react-router-dom";
 import { WaitlistPopup } from "./WaitlistPopup";
+import { appMockup } from "../../assets/app-mockup.svg";
 
 export function LandingPage() {
   const [email, setEmail] = useState("");
@@ -70,7 +71,7 @@ export function LandingPage() {
         </div>
 
         <div className="hero-right">
-          <img src="src/assets/app-mockup.svg" alt="App Mockup" className="hero-image" />
+          <img src={ appMockup } alt="App Mockup" className="hero-image" />
         </div>
     </section>
 
