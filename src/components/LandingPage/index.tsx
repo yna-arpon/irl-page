@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { postToAirtable } from "../../utils/airtable";
+import { AIRTABLE_WAITLIST_BASE_ID, postToAirtable } from "../../utils/airtable";
+import { Link } from "react-router-dom";
+import { WaitlistPopup } from "./WaitlistPopup";
 
 export function LandingPage() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showWaitlist, setShowWaitlist] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -12,8 +15,7 @@ export function LandingPage() {
   const success = await postToAirtable({
     Name: "(not provided)",
     Email: email,
-    SignupType: "Waitlist",
-  });
+  }, AIRTABLE_WAITLIST_BASE_ID);
 
   if (success) setSubmitted(true);
 };
@@ -44,7 +46,7 @@ export function LandingPage() {
           {/* TO DO: Implement Airtable integration */}
           <div className="hero-form-wrap">
             {submitted ? (
-              <p className="hero-success">You're on the list. We'll be in touch.</p>
+              <p className="hero-success">You're on the list! We'll be in touch.</p>
             ) : (
               <form onSubmit={handleSubmit} className="hero-form">
                 <input
@@ -55,17 +57,16 @@ export function LandingPage() {
                   className="hero-form-input"
                   required
                 />
-                {/* TO DO: Fix styling */}
                 <button type="submit" className="hero-form-btn">Join the waitlist →</button>
               </form>
             )}
           </div>
           {/* TO DO: Update list dynamically */}
-          <div className="hero-meta">
+          {/* <div className="hero-meta">
             <span className="hero-count">⬤ 30 already on the list</span>
             <span className="hero-sep">·</span>
             <span className="hero-tag">private beta · summer '26</span>
-          </div>
+          </div> */}
         </div>
 
         <div className="hero-right">
@@ -95,6 +96,7 @@ export function LandingPage() {
     </section>
 
     {/* ── GET INVOLVED ── */}
+    {showWaitlist && <WaitlistPopup onClose={() => setShowWaitlist(false)} />}
     <section className="involve" id="get-involved">
       <div className="involve-inner">
         <p className="section-label">Get Involved</p>
@@ -113,9 +115,9 @@ export function LandingPage() {
             </p>
             <button
               className="tier-btn"
-              onClick={() => document.querySelector('.hero-form-input')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => setShowWaitlist(true)}
             >
-              Reserve a seat →
+              Reserve a seat
             </button>
           </div>
 
@@ -127,8 +129,12 @@ export function LandingPage() {
               Take our survey whether you're worried for yourself or your children, and help shape what irl becomes. 
               Your feedback will directly influence our design and features.
             </p>
-            <button className="tier-btn">For Parents</button>
-            <button className="tier-btn">For Individuals</button>
+            <Link to="/parents" className="tier-btn">
+              For Parents
+            </Link>
+            <Link to="/survey" className="tier-btn">
+              For Individuals
+            </Link>
           </div>
         </div>
       </div>

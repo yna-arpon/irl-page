@@ -1,6 +1,7 @@
 const AIRTABLE_API_KEY = import.meta.env.VITE_AIRTABLE_API_KEY
 const AIRTABLE_BASE_ID =String(import.meta.env.VITE_AIRTABLE_BASE_ID ?? '')
 export const AIRTABLE_PARENTS_BASE_ID = String(import.meta.env.VITE_AIRTABLE_PARENTS_BASE_ID ?? '')
+export const AIRTABLE_WAITLIST_BASE_ID = String(import.meta.env.VITE_AIRTABLE_WAITLIST_BASE_ID ?? '')
 const AIRTABLE_TABLE   = import.meta.env.VITE_AIRTABLE_TABLE || 'Leads';
 
 export async function postToAirtable(fields: Record<string, unknown>, base_id: string = AIRTABLE_BASE_ID): Promise<boolean> {
