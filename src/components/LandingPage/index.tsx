@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AIRTABLE_WAITLIST_BASE_ID, postToAirtable } from "../../utils/airtable";
 import { Link } from "react-router-dom";
 import { WaitlistPopup } from "./WaitlistPopup";
-import { appMockup } from "../../assets/app-mockup.svg";
+import appMockup from "../../assets/app-mockup.svg";
 
 export function LandingPage() {
   const [email, setEmail] = useState("");
