@@ -1,3 +1,8 @@
+// TO DOs:
+// - AppMockup.svg needs to be higher quality
+// - Render for phones
+// - Privacy and contact links 
+
 import { useState } from "react";
 import { AIRTABLE_WAITLIST_BASE_ID, postToAirtable } from "../../utils/airtable";
 import { Link } from "react-router-dom";
