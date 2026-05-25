@@ -1,18 +1,18 @@
-// import { LandingPage } from "../components/LandingPage";
-
-// export function Landing() {
-//   return <LandingPage />;
-// }
-
+import { LandingPage } from "../components/LandingPage";
 
 export function Landing() {
-  return (
-    <main className="survey-page">
-      <div className="survey-inner">
-        <h1 className="survey-title">irl</h1>
-        <p className="survey-sub">Coming soon.</p>
-        <p className="survey-sub">contact@live-irl.com</p>
-      </div>
-    </main>
-  );
+  return <LandingPage />;
 }
+
+
+// export function Landing() {
+//   return (
+//     <main className="survey-page">
+//       <div className="survey-inner">
+//         <h1 className="survey-title">irl</h1>
+//         <p className="survey-sub">Coming soon.</p>
+//         <p className="survey-sub">contact@live-irl.com</p>
+//       </div>
+//     </main>
+//   );
+// }

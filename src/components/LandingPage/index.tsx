@@ -149,10 +149,10 @@ export function LandingPage() {
     {/* ── FOOTER ── */}
     <footer className="footer">
       <span className="footer-logo">irl</span>
-      {/* <span className="footer-made">made carefully · Canada </span> */}
+      <span className="footer-made">contact@live-irl.com · Proudly Canadian </span>
       <div className="footer-links">
-        {/* <a href="#" className="footer-link">privacy</a>
-        <a href="#" className="footer-link">contact</a> */}
+        <Link to="./Privacy" className="footer-link">Privacy</Link>
+        {/* <Link to="/terms-of-use" className="footer-link">Terms of Use</Link> */}
       </div>
     </footer>
     </div>
