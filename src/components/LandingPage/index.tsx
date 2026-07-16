@@ -6,13 +6,11 @@
 import { useState } from "react";
 import { AIRTABLE_WAITLIST_BASE_ID, postToAirtable } from "../../utils/airtable";
 import { Link } from "react-router-dom";
-import { WaitlistPopup } from "./WaitlistPopup";
 import appMockup from "../../assets/app-mockup.svg";
 
 export function LandingPage() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [showWaitlist, setShowWaitlist] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -102,7 +100,6 @@ export function LandingPage() {
     </section>
 
     {/* ── GET INVOLVED ── */}
-    {showWaitlist && <WaitlistPopup onClose={() => setShowWaitlist(false)} />}
     <section className="involve" id="get-involved">
       <div className="involve-inner">
         <p className="section-label">Get Involved</p>
@@ -119,12 +116,9 @@ export function LandingPage() {
             <p className="tier-body">
               Drop your email and we'll notify you when we launch our private beta. No spam, ever.
             </p>
-            <button
-              className="tier-btn"
-              onClick={() => setShowWaitlist(true)}
-            >
+            <Link to="/waitlist" className="tier-btn">
               Reserve a seat
-            </button>
+            </Link>
           </div>
 
           <div className="tier">
