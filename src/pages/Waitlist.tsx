@@ -5,6 +5,7 @@ export function Waitlist() {
   return (
     <SignupPage
       baseId={AIRTABLE_WAITLIST_BASE_ID}
+      source="Waitlist"
       blobPosition="tr"
       title="Be first to try irl."
       subtitle="We'll let you know the moment beta opens — nothing else."

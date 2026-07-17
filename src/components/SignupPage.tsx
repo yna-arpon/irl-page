@@ -6,6 +6,7 @@ const LEAVE_DURATION = 300;
 
 interface SignupPageProps {
   baseId: string;
+  source: "Waitlist" | "Newsletter";
   blobPosition: "tr" | "bl";
   title: string;
   subtitle: string;
@@ -18,6 +19,7 @@ interface SignupPageProps {
 
 export function SignupPage({
   baseId,
+  source,
   blobPosition,
   title,
   subtitle,
@@ -45,6 +47,7 @@ export function SignupPage({
       {
         Name: "(not provided)",
         Email: email,
+        Source: source,
       },
       baseId
     );

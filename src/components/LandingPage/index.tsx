@@ -21,6 +21,7 @@ export function LandingPage() {
   const success = await postToAirtable({
     Name: "(not provided)",
     Email: email,
+    Source: "Waitlist",
   }, AIRTABLE_WAITLIST_BASE_ID);
 
   if (success) {

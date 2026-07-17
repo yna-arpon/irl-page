@@ -4,8 +4,9 @@ import { AIRTABLE_WAITLIST_BASE_ID } from "../utils/airtable";
 export function Newsletter() {
   return (
     <SignupPage
-      // TODO: switch back to AIRTABLE_NEWSLETTER_BASE_ID once that base/table is sorted out
+      // TODO: switch back to AIRTABLE_NEWSLETTER_BASE_ID once that base's access issue is resolved
       baseId={AIRTABLE_WAITLIST_BASE_ID}
+      source="Newsletter"
       blobPosition="bl"
       title="IRL: The Unplugged Update"
       subtitle="Join a community rethinking its relationship with phones. Stories, research, and updates from people building a more present life."
