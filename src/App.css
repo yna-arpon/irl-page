@@ -338,25 +338,37 @@ nav {
 }
 
 .tier-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
   background: transparent;
-  border: 1.5px solid rgba(27,78,107,0.3);
+  border: none;
+  border-bottom: 1.5px solid transparent;
   color: var(--navy);
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
-  padding: 12px 20px;
+  padding: 12px 0;
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.25s ease;
+  transition: border-color 0.25s ease, gap 0.25s ease;
   text-align: left;
   margin-bottom: 2%;
   text-decoration: none;
 }
 
+.tier-btn::after {
+  content: "→";
+  transition: transform 0.25s ease;
+}
+
 .tier-btn:hover {
-  background: var(--navy);
-  border-color: var(--navy);
-  color: var(--white);
+  border-bottom-color: var(--navy);
+  gap: 10px;
+}
+
+.tier-btn:hover::after {
+  transform: translateX(3px);
 }
 
 /* ── FOOTER ── */
