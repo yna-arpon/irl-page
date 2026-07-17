@@ -1,10 +1,11 @@
 import { SignupPage } from "../components/SignupPage";
-import { AIRTABLE_NEWSLETTER_BASE_ID } from "../utils/airtable";
+import { AIRTABLE_WAITLIST_BASE_ID } from "../utils/airtable";
 
 export function Newsletter() {
   return (
     <SignupPage
-      baseId={AIRTABLE_NEWSLETTER_BASE_ID}
+      // TODO: switch back to AIRTABLE_NEWSLETTER_BASE_ID once that base/table is sorted out
+      baseId={AIRTABLE_WAITLIST_BASE_ID}
       blobPosition="bl"
       title="IRL: The Unplugged Update"
       subtitle="Join a community rethinking its relationship with phones. Stories, research, and updates from people building a more present life."
