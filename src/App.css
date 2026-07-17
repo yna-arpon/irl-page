@@ -143,54 +143,44 @@ nav {
   font-weight: 600;
 }
 
-.hero-form {
-  display: flex;
-  gap: 0;
-  max-width: 440px;
-  border: 1.5px solid rgba(27, 78, 107, 0.25);
-  background: white;
-  overflow: hidden;
-  border-radius: 4px;
-}
-
 .hero-form-wrap {
   max-width: 440px;
 }
 
-.hero-form-input {
-  flex: 1;
-  padding: 14px 18px;
-  border: none;
-  outline: none;
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--text);
-  background: transparent;
+.hero-form-content {
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.hero-form-input::placeholder { color: var(--muted); }
-
-.hero-form-btn {
-  padding: 14px 22px;
-  background: var(--navy);
-  color: white;
-  border: none;
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background var(--transition);
+.hero-form-content-leave {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
 }
 
-.hero-form-btn:hover { background: var(--navy2); }
+.hero-form-content-enter {
+  animation: signupEnter 0.4s ease both;
+}
 
 .hero-success {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
   color: var(--navy);
   padding: 14px 0;
   font-weight: 500;
+}
+
+.hero-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--powder);
+  color: var(--navy);
+  font-size: 12px;
 }
 
 .hero-meta {
@@ -438,9 +428,9 @@ nav {
 
   .hero-heading { font-size: clamp(36px, 9vw, 52px); }
 
-  .hero-form { flex-direction: column; }
+  .signup-form { flex-direction: column; }
 
-  .hero-form-btn { width: 100%; text-align: center; }
+  .signup-btn { width: 100%; text-align: center; }
 
   /* Mission */
   .mission { padding: 60px 24px; }

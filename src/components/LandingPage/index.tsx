@@ -8,9 +8,11 @@ import { AIRTABLE_WAITLIST_BASE_ID, postToAirtable } from "../../utils/airtable"
 import { Link } from "react-router-dom";
 import appMockup from "../../assets/app-mockup.svg";
 
+const LEAVE_DURATION = 300;
+
 export function LandingPage() {
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [phase, setPhase] = useState<"form" | "leaving" | "success">("form");
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -21,7 +23,10 @@ export function LandingPage() {
     Email: email,
   }, AIRTABLE_WAITLIST_BASE_ID);
 
-  if (success) setSubmitted(true);
+  if (success) {
+    setPhase("leaving");
+    setTimeout(() => setPhase("success"), LEAVE_DURATION);
+  }
 };
 
   return (
@@ -49,19 +54,26 @@ export function LandingPage() {
           </p>
           {/* TO DO: Implement Airtable integration */}
           <div className="hero-form-wrap">
-            {submitted ? (
-              <p className="hero-success">You're on the list! We'll be in touch.</p>
+            {phase === "success" ? (
+              <p key="success" className="hero-success hero-form-content-enter">
+                <span className="hero-success-icon">✓</span>
+                You're on the list! We'll be in touch.
+              </p>
             ) : (
-              <form onSubmit={handleSubmit} className="hero-form">
+              <form
+                key="form"
+                onSubmit={handleSubmit}
+                className={`signup-form hero-form-content${phase === "leaving" ? " hero-form-content-leave" : ""}`}
+              >
                 <input
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="you@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="hero-form-input"
+                  className="signup-input"
                   required
                 />
-                <button type="submit" className="hero-form-btn">Join the waitlist →</button>
+                <button type="submit" className="signup-btn">Join waitlist</button>
               </form>
             )}
           </div>
