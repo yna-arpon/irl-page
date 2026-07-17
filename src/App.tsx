@@ -5,6 +5,7 @@ import { Survey } from "./pages/Survey";
 import { ParentsSurvey } from "./pages/ParentsSurvey";
 import { Privacy } from "./pages/Privacy";
 import { Waitlist } from "./pages/Waitlist";
+import { Newsletter } from "./pages/Newsletter";
 
 // import { useState } from "react";
 // import { SurveyForm } from "./components/SurveyForm";
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/parents" element={<ParentsSurvey />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/waitlist" element={<Waitlist />} />
+        <Route path="/newsletter" element={<Newsletter />} />
       </Routes>
     </div>
   );

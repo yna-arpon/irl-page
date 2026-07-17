@@ -296,7 +296,7 @@ nav {
 
 .involve-tiers {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -415,6 +415,11 @@ nav {
   .involve-tiers { grid-template-columns: 1fr; gap: 16px; }
   .footer { flex-direction: column; align-items: flex-start; padding: 36px 24px; gap: 12px; }
 } */
+
+/* ── TABLET ── */
+@media (max-width: 1000px) {
+  .involve-tiers { grid-template-columns: repeat(2, 1fr); }
+}
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
@@ -1260,8 +1265,8 @@ nav {
   transform: translateY(-10px);
 }
 
-/* ── WAITLIST PAGE ── */
-.waitlist-page {
+/* ── SIGNUP PAGES (waitlist, newsletter) ── */
+.signup-page {
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -1272,7 +1277,7 @@ nav {
   padding: 24px;
 }
 
-.waitlist-card {
+.signup-card {
   position: relative;
   width: 100%;
   max-width: 640px;
@@ -1285,7 +1290,7 @@ nav {
   animation: slideUp 0.25s ease;
 }
 
-.waitlist-content {
+.signup-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1293,24 +1298,22 @@ nav {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.waitlist-content-leave {
+.signup-content-leave {
   opacity: 0;
   transform: translateY(-10px) scale(0.98);
 }
 
-.waitlist-content-enter {
-  animation: waitlistEnter 0.4s ease both;
+.signup-content-enter {
+  animation: signupEnter 0.4s ease both;
 }
 
-@keyframes waitlistEnter {
+@keyframes signupEnter {
   from { opacity: 0; transform: translateY(10px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.waitlist-blob {
+.signup-blob {
   position: absolute;
-  top: -140px;
-  right: -100px;
   width: 420px;
   height: 420px;
   border-radius: 50%;
@@ -1320,7 +1323,17 @@ nav {
   pointer-events: none;
 }
 
-.waitlist-back {
+.signup-blob--tr {
+  top: -140px;
+  right: -100px;
+}
+
+.signup-blob--bl {
+  bottom: -120px;
+  left: -100px;
+}
+
+.signup-back {
   position: absolute;
   top: 28px;
   left: 28px;
@@ -1336,9 +1349,9 @@ nav {
   transition: background var(--transition);
 }
 
-.waitlist-back:hover { background: var(--powder3); }
+.signup-back:hover { background: var(--powder3); }
 
-.waitlist-title {
+.signup-title {
   position: relative;
   font-family: var(--font-display);
   font-style: italic;
@@ -1351,7 +1364,7 @@ nav {
   margin-bottom: 18px;
 }
 
-.waitlist-sub {
+.signup-sub {
   position: relative;
   font-size: 17px;
   line-height: 1.6;
@@ -1360,7 +1373,7 @@ nav {
   margin-bottom: 40px;
 }
 
-.waitlist-success-icon {
+.signup-success-icon {
   position: relative;
   width: 52px;
   height: 52px;
@@ -1375,7 +1388,7 @@ nav {
   margin-bottom: 20px;
 }
 
-.waitlist-form {
+.signup-form {
   position: relative;
   display: flex;
   gap: 10px;
@@ -1383,7 +1396,7 @@ nav {
   max-width: 420px;
 }
 
-.waitlist-input {
+.signup-input {
   flex: 1;
   padding: 14px 16px;
   font-size: 15px;
@@ -1396,10 +1409,10 @@ nav {
   transition: border-color var(--transition);
 }
 
-.waitlist-input:focus { border-color: var(--navy); }
-.waitlist-input::placeholder { color: var(--muted); }
+.signup-input:focus { border-color: var(--navy); }
+.signup-input::placeholder { color: var(--muted); }
 
-.waitlist-btn {
+.signup-btn {
   padding: 14px 26px;
   font-size: 15px;
   font-family: var(--font-body);
@@ -1417,22 +1430,22 @@ nav {
   transition: background var(--transition);
 }
 
-.waitlist-btn:hover:not(:disabled) { background: var(--navy2); }
-.waitlist-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.signup-btn:hover:not(:disabled) { background: var(--navy2); }
+.signup-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.waitlist-btn-standalone {
+.signup-btn-standalone {
   position: relative;
   padding: 14px 32px;
 }
 
-.waitlist-error {
+.signup-error {
   position: relative;
   font-size: 12.5px;
   color: #c0392b;
   margin-top: 12px;
 }
 
-.waitlist-fine {
+.signup-fine {
   position: relative;
   font-size: 12.5px;
   color: var(--muted);
@@ -1440,11 +1453,11 @@ nav {
 }
 
 @media (max-width: 560px) {
-  .waitlist-card { padding: 64px 24px; min-height: 480px; }
-  .waitlist-title { font-size: 36px; margin-top: 40px; }
-  .waitlist-sub { font-size: 15px; }
-  .waitlist-form { flex-direction: column; }
-  .waitlist-btn { width: 100%; }
+  .signup-card { padding: 64px 24px; min-height: 480px; }
+  .signup-title { font-size: 36px; margin-top: 40px; }
+  .signup-sub { font-size: 15px; }
+  .signup-form { flex-direction: column; }
+  .signup-btn { width: 100%; }
 }
 
 .privacy-page {

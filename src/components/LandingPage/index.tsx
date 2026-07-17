@@ -136,6 +136,19 @@ export function LandingPage() {
               For Individuals
             </Link>
           </div>
+
+          <div className="tier">
+            <div className="tier-num">03 / Newsletter</div>
+            <div className="tier-time">1 min</div>
+            <h3 className="tier-title">Stay in the loop.</h3>
+            <p className="tier-body">
+              Subscribe to "IRL: The Unplugged Update" for stories, research, and updates from
+              people building a more present life.
+            </p>
+            <Link to="/newsletter" className="tier-btn">
+              Join Newsletter
+            </Link>
+          </div>
         </div>
       </div>
     </section>
