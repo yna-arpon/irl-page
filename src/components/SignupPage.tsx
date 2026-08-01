@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { postToAirtable } from "../utils/airtable";
+import { postToBeehiiv } from "../utils/beehiiv";
 
 const LEAVE_DURATION = 300;
 
@@ -50,10 +51,12 @@ export function SignupPage({
         Source: source,
       },
       baseId
+      
     );
+    const beehiivSuccess = await postToBeehiiv(email);
 
     setLoading(false);
-    if (success) {
+    if (success && beehiivSuccess) {
       setPhase("leaving");
       setTimeout(() => setPhase("success"), LEAVE_DURATION);
     } else {
